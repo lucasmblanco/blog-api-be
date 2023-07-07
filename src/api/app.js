@@ -16,8 +16,10 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use('/user', routes.user);
+
 app.use((req, res, next) => {
-    next(createError(404));
+   next(createError(404));
 });
 
 // error handler
@@ -30,7 +32,6 @@ app.use((err, req, res) => {
     res.render('error');
 });
 
-app.use('/user', routes.userRouter);
 
 app.listen(port, () => {
     console.log(`Server started on port: ${port}`);

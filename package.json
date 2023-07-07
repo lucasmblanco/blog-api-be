@@ -2,7 +2,7 @@
     "name": "blog-api-be",
     "version": "1.0.0",
     "description": "REST API for the blog project",
-    "main": "src/api/app.js",
+    "main": "app.js",
     "scripts": {
         "devstart": "nodemon --exec babel-node src/api/app.js",
         "test": "echo \"Error: no test specified\" && exit 1",
@@ -21,6 +21,8 @@
         "debug": "^4.3.4",
         "dotenv": "^16.3.1",
         "express": "^4.18.2",
+        "express-session": "^1.17.3",
+        "express-validator": "^7.0.1",
         "http-errors": "^2.0.0",
         "jsonwebtoken": "^9.0.0",
         "mongoose": "^7.3.1",

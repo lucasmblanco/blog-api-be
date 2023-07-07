@@ -1,5 +1,5 @@
-import userRouter from './user-router';
+import user from './user-router';
 
 export default {
-    userRouter,
+    user,
 };
