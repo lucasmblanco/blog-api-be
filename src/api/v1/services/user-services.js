@@ -14,9 +14,9 @@ const userApproved = function (res, req) {
                 password: hashedPassword
          })
             await newUser.save();
-            return res.status(200).json({ message: 'User created' }); 
+            res.status(200).json({ message: 'User created' }); 
         } catch {
-            return res.send(503).json({ message: err.message }); 
+            res.send(503).json({ message: err.message }); 
       }
     })
 }

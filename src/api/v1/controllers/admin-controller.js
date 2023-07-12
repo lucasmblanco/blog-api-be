@@ -15,9 +15,8 @@ const logAdmin = (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(400).send(`Failed validation w/ this errors: ${userFailed(errors)} `); 
     } 
-    JWTAuth(res, req); 
+        JWTAuth(req, res); 
     // return res.send('admin authenticated');
-
 }
 
 export {

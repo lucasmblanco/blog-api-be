@@ -2,6 +2,7 @@ import { Router } from 'express';
 import userValidation from '../validations/user-validation';
 import { createUser } from '../controllers/user-controller'; 
 
+
 const router = Router();
 
 router.get('/', (req, res) => {
