@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose'; 
+import mongoose, { Schema } from 'mongoose';
 
 const CommentModel = new Schema({
     post: {
@@ -17,8 +17,7 @@ const CommentModel = new Schema({
     },
     timestamp: {
         type: Date,
-    }
+    },
 });
 
-export default mongoose.Model('Comment', CommentModel); 
-
+export default mongoose.model('Comment', CommentModel);

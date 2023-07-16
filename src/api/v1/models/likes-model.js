@@ -1,14 +1,14 @@
 import mongoose, { Schema } from 'mongoose';
 
 const LikeSchema = new Schema({
-    post: {
+    comment: {
         type: Schema.Types.ObjectId,
-        ref: 'Post',
+        ref: 'Comment',
     },
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-    }
+    },
 });
 
-export default mongoose.Model('Like', LikeSchema)
+export default mongoose.model('Like', LikeSchema);

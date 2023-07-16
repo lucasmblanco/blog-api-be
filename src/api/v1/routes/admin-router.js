@@ -8,8 +8,8 @@ router.get('/', (req, res) => {
     return res.status(200).send('response with a resource from admin route');
 });
 
-router.post('/sign-up', userValidation, createAdmin);
+router.post('/signup', userValidation, createAdmin);
 
-router.post('/log-in', userValidation, logAdmin); 
+router.post('/login', userValidation, logAdmin);
 
 export default router;

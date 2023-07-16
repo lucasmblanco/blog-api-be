@@ -1,7 +1,7 @@
-import UserSchema from '../models/user-model';
+import AdminSchema from '../models/admin-model';
 import bcrypt from 'bcryptjs';
 
-const userFailed = function (errors, res) {
+const adminFailed = function (errors, res) {
     return res
         .status(400)
         .send(
@@ -11,19 +11,19 @@ const userFailed = function (errors, res) {
         );
 };
 
-const userApproved = function (req, res) {
+const adminApproved = function (req, res) {
     bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
         try {
-            const newUser = new UserSchema({
+            const newUser = new AdminSchema({
                 username: req.body.username,
                 password: hashedPassword,
             });
             await newUser.save();
-            res.status(200).json({ message: 'User created' });
+            res.status(200).json({ message: 'Admin created' });
         } catch {
             res.send(503).json({ message: err.message });
         }
     });
 };
 
-export { userFailed, userApproved };
+export { adminFailed, adminApproved };

@@ -1,25 +1,21 @@
-import { validationResult } from 'express-validator'; 
-import { userApproved, userFailed } from '../services/user-services';
-import { JWTAuth } from '../services/auth-services'; 
+import { validationResult } from 'express-validator';
+import { adminApproved, adminFailed } from '../services/admin-services';
+import { JWTAuth } from '../services/auth-services';
 
 const createAdmin = (req, res) => {
-    const errors = validationResult(req); 
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).send(`Failed validation w/ this errors: ${userFailed(errors)} `); 
+        adminFailed(errors, res);
     }
-       userApproved(res, req); 
-}
+    adminApproved(req, res);
+};
 
 const logAdmin = (req, res) => {
-    const errors = validationResult(req); 
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).send(`Failed validation w/ this errors: ${userFailed(errors)} `); 
-    } 
-        JWTAuth(req, res); 
-    // return res.send('admin authenticated');
-}
+        adminFailed(errors, res);
+    }
+    void JWTAuth(req, res, 'Admin');
+};
 
-export {
-    createAdmin,
-    logAdmin
-}
+export { createAdmin, logAdmin };

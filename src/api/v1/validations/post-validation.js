@@ -1,4 +1,4 @@
-import { body } from 'express-validator'; 
+import { body } from 'express-validator';
 
 const postValidation = [
     body('title')
@@ -13,12 +13,9 @@ const postValidation = [
         .trim()
         .escape()
         .withMessage('body must be specific'),
-    body('published')
-        .customSanitizer(input => {
-            return Boolean(input)
-        })
+    body('published').customSanitizer((input) => {
+        return Boolean(input);
+    }),
 ];
 
-export {
-    postValidation
-}
+export { postValidation };

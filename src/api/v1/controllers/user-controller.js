@@ -1,13 +1,21 @@
-import { validationResult } from 'express-validator'; 
+import { validationResult } from 'express-validator';
 import { userApproved, userFailed } from '../services/user-services';
+import { adminFailed } from '../services/admin-services';
+import { JWTAuth } from '../services/auth-services';
 
 const createUser = (req, res) => {
-    const errors = validationResult(req); 
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).send(`Failed validation w/ this errors: ${userFailed(errors)} `); 
+        return userFailed(errors, res);
     }
-        userApproved(res, req); 
-}
-export {
-    createUser
-}
+    return userApproved(req, res);
+};
+
+const logUser = (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return userFailed(errors, res);
+    }
+    return JWTAuth(req, res, 'User');
+};
+export { createUser, logUser };

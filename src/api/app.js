@@ -13,7 +13,6 @@ const port = process.env.PORT;
 const app = express();
 main().catch((err) => console.log(err));
 
-
 app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
@@ -22,12 +21,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 //passport.use(JWTStrategy);
 app.use('/admin', routes.admin);
-app.use('/user', routes.user);
-//app.use(authenticateUser); 
-app.use('/post', routes.post); 
+app.use('/users', routes.user);
+//app.use(authenticateUser);
+app.use('/posts', routes.post);
 
 app.use((req, res, next) => {
-   next(createError(404));
+    next(createError(404));
 });
 
 app.use((err, req, res) => {

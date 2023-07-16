@@ -10,10 +10,12 @@ const PostScheme = new Schema({
         type: String,
         required: true,
     },
-    body: [{
-        type: String,
-        required: true,
-    }],
+    body: [
+        {
+            type: String,
+            required: true,
+        },
+    ],
     published: {
         type: Boolean,
         required: true,
@@ -21,7 +23,7 @@ const PostScheme = new Schema({
     timestamp: {
         type: Date,
         required: true,
-    }
+    },
 });
 
 export default mongoose.model('Post', PostScheme);

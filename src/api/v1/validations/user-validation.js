@@ -1,4 +1,4 @@
-import { body } from 'express-validator'; 
+import { body } from 'express-validator';
 
 const userValidation = [
     body('username')
@@ -11,7 +11,7 @@ const userValidation = [
         .notEmpty()
         .withMessage('Password is required')
         .isLength({ min: 8 })
-        .withMessage('Password must contain at least 8 characters')
-]
+        .withMessage('Password must contain at least 8 characters'),
+];
 
-export default userValidation; 
+export default userValidation;

@@ -1,8 +1,14 @@
-import Post from '../models/post-model'; 
+import Post from '../models/post-model';
 
-const postFailed = function (errors) {
-    return errors.array().map(e => e.msg);
-}
+const postFailed = function (errors, res) {
+    return res
+        .status(400)
+        .send(
+            `Failed validation w/ this errors: ${errors
+                .array()
+                .map((e) => e.msg)}`
+        );
+};
 
 const postApproved = async function (req, res) {
     try {
@@ -11,16 +17,42 @@ const postApproved = async function (req, res) {
             title: req.body.title,
             body: [req.body.body],
             published: req.body.published,
-            timestamp: new Date()
+            timestamp: new Date(),
         });
-        await newPost.save(); 
-        res.status(201).send(newPost); 
+        await newPost.save();
+        res.status(201).send(newPost);
     } catch (err) {
         res.status(400);
     }
+};
+
+const postsInStorage = async function (res, next) {
+    try {
+        const posts = await Post.find({})
+            .sort({ timestamp: 1 });
+        return res.json(posts);
+    } catch (err) {
+        next(err);
+    }
+};
+
+const postDelete = async function (req, res, next) {
+    console.log('LLEGASTE A POST SERVICES'); 
+    try {
+        const post = await Post.findByIdAndDelete(req.params.id); 
+        return res.json(post); 
+    } catch (err) {
+        return next(err);
+    }
 }
 
-export {
-    postFailed,
-    postApproved
+const postRequested = async function (req, res, next) {
+    try {
+        const post = await Post.findById(req.params.id); 
+        return res.json(post);
+    } catch (err) {
+        next(err); 
+    }
 }
+
+export { postsInStorage, postFailed, postApproved, postDelete, postRequested };
