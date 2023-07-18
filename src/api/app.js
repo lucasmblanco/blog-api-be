@@ -20,10 +20,12 @@ app.use(passport.initialize());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 //passport.use(JWTStrategy);
+//app.use(authenticateUser);
 app.use('/admin', routes.admin);
 app.use('/users', routes.user);
-//app.use(authenticateUser);
 app.use('/posts', routes.post);
+app.use('/:id/comment', routes.comment);
+app.use('/:id/like', routes.like); 
 
 app.use((req, res, next) => {
     next(createError(404));

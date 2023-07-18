@@ -1,10 +1,15 @@
 import mongoose, { Schema } from 'mongoose';
 
-const CommentModel = new Schema({
-    post: {
+const CommentSchema = new Schema({
+    on: {
         type: Schema.Types.ObjectId,
-        red: ' Post',
         required: true,
+        refPath: 'onModel',
+    },
+    onModel: {
+        type: 'String', 
+        required: true,
+        enum: ['Post', 'Comment']
     },
     author: {
         type: Schema.Types.ObjectId,
@@ -17,7 +22,8 @@ const CommentModel = new Schema({
     },
     timestamp: {
         type: Date,
+        required: true,
     },
 });
 
-export default mongoose.model('Comment', CommentModel);
+export default mongoose.model('Comment', CommentSchema);

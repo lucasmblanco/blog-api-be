@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import {
     createPost,
-    deletePost,
+    deleteController,
+    editController,
     showPosts,
     getPost
 } from '../controllers/post-controller';
@@ -16,6 +17,8 @@ router.get('/:id', getPost);
 
 router.post('/', authenticateAdmin, postValidation, createPost);
 
-router.delete('/:id', authenticateAdmin, deletePost);
+router.put('/:id', authenticateAdmin, postValidation, editController); 
+
+router.delete('/:id', authenticateAdmin, deleteController);
 
 export default router;

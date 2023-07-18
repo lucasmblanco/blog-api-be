@@ -36,8 +36,7 @@ const postsInStorage = async function (res, next) {
     }
 };
 
-const postDelete = async function (req, res, next) {
-    console.log('LLEGASTE A POST SERVICES'); 
+const postDelete = async function (req, res, next) { 
     try {
         const post = await Post.findByIdAndDelete(req.params.id); 
         return res.json(post); 
@@ -55,4 +54,22 @@ const postRequested = async function (req, res, next) {
     }
 }
 
-export { postsInStorage, postFailed, postApproved, postDelete, postRequested };
+const postEdit = async function (req, res, next) {
+    try {
+        const post = new Post({
+            author: req.user[0].id,
+            title: req.body.title,
+            body: [req.body.body],
+            published: req.body.published,
+            timestamp: new Date(),
+            _id: req.params.id,
+        });
+        const postUpdated = await Post.findByIdAndUpdate(req.params.id, post, { new: true }); 
+        res.status(200).send(postUpdated); 
+
+    } catch (err) {
+        next(err);
+    }
+}
+
+export { postsInStorage, postFailed, postApproved, postDelete, postRequested, postEdit};
