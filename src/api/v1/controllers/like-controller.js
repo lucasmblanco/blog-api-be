@@ -1,14 +1,18 @@
-import { likeServiceOnPost, likeServiceOnComment } from '../services/like-services'; 
+import {
+    getLikes,
+    likeOnPost,
+    likeOnComment,
+} from '../services/like-services';
 
-const likeControllerOnPost = function (req, res) {
-    likeServiceOnPost(req, res); 
-}
+const likeOnPostController = function (req, res) {
+    likeOnPost(req, res);
+};
 
-const likeControllerOnComment = function (req, res) {
-    likeServiceOnComment(req, res); 
-}
+const likeOnCommentController = function (req, res) {
+    likeOnComment(req, res);
+};
 
-export {
-    likeControllerOnPost,
-    likeControllerOnComment
+const getController = function (req, res) {
+    getLikes(req, res); 
 }
+export { likeOnPostController, likeOnCommentController, getController };

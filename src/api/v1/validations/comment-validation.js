@@ -7,7 +7,6 @@ const commentValidation = [
         .trim()
         .escape()
         .withMessage('body must be specific'),
-]; 
+];
 
-export default commentValidation; 
-
+export default commentValidation;

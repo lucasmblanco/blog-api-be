@@ -1,23 +1,29 @@
-import { validationResult } from "express-validator"; 
-import { commentFailed, commentOnPost, commentOnComment } from '../services/comment-services'; 
+import { validationResult } from 'express-validator';
+import {
+    commentFailed,
+    commentOnPost,
+    commentOnComment,
+    getCommentService
+} from '../services/comment-services';
 
-const createControllerOnPost = function(req, res){
-    const errors = validationResult(req); 
+const getController = function (req, res) {
+    getCommentService(req, res);
+}
+
+const createOnPostController = function (req, res) {
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return commentFailed(errors, res);
     }
     commentOnPost(req, res);
-}
+};
 
-const createControllerOnComment = function(req, res){
-    const errors = validationResult(req); 
+const createOnCommentController = function (req, res) {
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return commentFailed(errors, res);
     }
     commentOnComment(req, res);
-}
+};
 
-export {
-    createControllerOnPost,
-    createControllerOnComment
-}
+export { createOnPostController, createOnCommentController, getController };

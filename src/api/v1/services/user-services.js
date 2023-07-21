@@ -19,11 +19,20 @@ const userApproved = function (req, res) {
                 password: hashedPassword,
             });
             await newUser.save();
-            res.status(200).json({ message: 'User created' });
+            res.status(200).json(newUser);
         } catch {
             res.send(503).json({ message: err.message });
         }
     });
 };
 
-export { userFailed, userApproved };
+const getUsers = async function (req, res) {
+    try {
+        const users = await UserSchema.find({}, 'username').sort({username: 1}); 
+        res.status(200).json(users); 
+    } catch (err) {
+        res.status(503).send(err.message); 
+    }
+}
+
+export { userFailed, userApproved, getUsers };

@@ -1,17 +1,25 @@
-import { Router } from "express";
+import { Router } from 'express';
 import { authenticateUser } from '../services/auth-services';
-import { createControllerOnPost, createControllerOnComment } from '../controllers/comment-controller';
-import  commentValidation  from '../validations/comment-validation';
+import {
+    createOnPostController,
+    createOnCommentController,
+    getController,
+} from '../controllers/comment-controller';
+import commentValidation from '../validations/comment-validation';
 
-const router = Router({mergeParams : true });
+const router = Router({ mergeParams: true });
 
-router.get('/', (req, res) => {
-    const id = req.params.id;
-    res.send(id);
-}); 
+router.get('/', getController);
 
-router.post('/', authenticateUser, commentValidation, createControllerOnPost); 
+router.get('/:id/', getController); 
 
-router.post('/:id/', authenticateUser, commentValidation, createControllerOnComment); 
+router.post('/', authenticateUser, commentValidation, createOnPostController);
+
+router.post(
+    '/:id/',
+    authenticateUser,
+    commentValidation,
+    createOnCommentController
+);
 
 export default router;

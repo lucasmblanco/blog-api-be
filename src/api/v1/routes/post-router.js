@@ -1,23 +1,23 @@
 import { Router } from 'express';
 import {
-    createPost,
+    createController,
     deleteController,
     editController,
-    showPosts,
-    getPost
+    getController,
+    getOneController,
 } from '../controllers/post-controller';
 import { postValidation } from '../validations/post-validation';
 import { authenticateAdmin } from '../services/auth-services';
 
 const router = Router();
 
-router.get('/', showPosts);
+router.get('/', getController);
 
-router.get('/:id', getPost);
+router.get('/:id', getOneController);
 
-router.post('/', authenticateAdmin, postValidation, createPost);
+router.post('/', authenticateAdmin, postValidation, createController);
 
-router.put('/:id', authenticateAdmin, postValidation, editController); 
+router.put('/:id', authenticateAdmin, postValidation, editController);
 
 router.delete('/:id', authenticateAdmin, deleteController);
 

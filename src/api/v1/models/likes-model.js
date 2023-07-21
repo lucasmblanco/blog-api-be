@@ -7,9 +7,9 @@ const LikeSchema = new Schema({
         refPath: 'OnModel',
     },
     onModel: {
-        type: 'String', 
+        type: 'String',
         required: true,
-        enum: ['Post', 'Comment']
+        enum: ['Post', 'Comment'],
     },
     author: {
         type: Schema.Types.ObjectId,

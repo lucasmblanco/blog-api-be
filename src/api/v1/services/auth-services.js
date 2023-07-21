@@ -130,12 +130,12 @@ const authenticateAdmin = passport.authenticate('admin-auth', {
     session: false,
 });
 
-const tokenVerification = passport.authenticate('jwt-auth', { session: false }); 
+const tokenVerification = passport.authenticate('jwt-auth', { session: false });
 
 export {
     JWTAuth,
     //JWTStrategy,
     authenticateUser,
     authenticateAdmin,
-    tokenVerification
+    tokenVerification,
 };

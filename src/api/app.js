@@ -24,8 +24,8 @@ app.use(cookieParser());
 app.use('/admin', routes.admin);
 app.use('/users', routes.user);
 app.use('/posts', routes.post);
-app.use('/:id/comment', routes.comment);
-app.use('/:id/like', routes.like); 
+app.use('/:id/comments', routes.comment);
+app.use('/:id/likes', routes.like); 
 
 app.use((req, res, next) => {
     next(createError(404));

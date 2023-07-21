@@ -1,12 +1,19 @@
 import { Router } from 'express';
 import { authenticateUser } from '../services/auth-services';
-import { likeControllerOnPost, likeControllerOnComment } from '../controllers/like-controller';
+import {
+    getController,
+    likeOnPostController,
+    likeOnCommentController,
+} from '../controllers/like-controller';
 
-const router = Router({mergeParams : true });
+const router = Router({ mergeParams: true });
 
-router.post('/', authenticateUser, likeControllerOnPost); 
+router.get('/', getController); 
 
-router.post('/:id', authenticateUser, likeControllerOnComment); 
+router.get('/:id', getController); 
 
+router.post('/', authenticateUser, likeOnPostController);
+
+router.post('/:id', authenticateUser, likeOnCommentController);
 
 export default router;

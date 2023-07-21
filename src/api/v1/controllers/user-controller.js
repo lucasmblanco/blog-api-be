@@ -1,9 +1,9 @@
 import { validationResult } from 'express-validator';
-import { userApproved, userFailed } from '../services/user-services';
-import { adminFailed } from '../services/admin-services';
+import { userApproved, userFailed, getUsers } from '../services/user-services';
+//import { adminFailed } from '../services/admin-services';
 import { JWTAuth } from '../services/auth-services';
 
-const createUser = (req, res) => {
+const createController = (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return userFailed(errors, res);
@@ -11,11 +11,16 @@ const createUser = (req, res) => {
     return userApproved(req, res);
 };
 
-const logUser = (req, res) => {
+const logController = (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return userFailed(errors, res);
     }
     return JWTAuth(req, res, 'User');
 };
-export { createUser, logUser };
+
+const getController = (req, res) => {
+    getUsers(req, res); 
+}
+
+export { createController, logController, getController };

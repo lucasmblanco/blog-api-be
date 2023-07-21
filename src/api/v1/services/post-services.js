@@ -28,31 +28,30 @@ const postApproved = async function (req, res) {
 
 const postsInStorage = async function (res, next) {
     try {
-        const posts = await Post.find({})
-            .sort({ timestamp: 1 });
+        const posts = await Post.find({}).sort({ timestamp: 1 });
         return res.json(posts);
     } catch (err) {
         next(err);
     }
 };
 
-const postDelete = async function (req, res, next) { 
+const postDelete = async function (req, res, next) {
     try {
-        const post = await Post.findByIdAndDelete(req.params.id); 
-        return res.json(post); 
+        const post = await Post.findByIdAndDelete(req.params.id);
+        return res.json(post);
     } catch (err) {
         return next(err);
     }
-}
+};
 
 const postRequested = async function (req, res, next) {
     try {
-        const post = await Post.findById(req.params.id); 
+        const post = await Post.findById(req.params.id);
         return res.json(post);
     } catch (err) {
-        next(err); 
+        next(err);
     }
-}
+};
 
 const postEdit = async function (req, res, next) {
     try {
@@ -64,12 +63,20 @@ const postEdit = async function (req, res, next) {
             timestamp: new Date(),
             _id: req.params.id,
         });
-        const postUpdated = await Post.findByIdAndUpdate(req.params.id, post, { new: true }); 
-        res.status(200).send(postUpdated); 
-
+        const postUpdated = await Post.findByIdAndUpdate(req.params.id, post, {
+            new: true,
+        });
+        res.status(200).send(postUpdated);
     } catch (err) {
         next(err);
     }
-}
+};
 
-export { postsInStorage, postFailed, postApproved, postDelete, postRequested, postEdit};
+export {
+    postsInStorage,
+    postFailed,
+    postApproved,
+    postDelete,
+    postRequested,
+    postEdit,
+};
