@@ -4,6 +4,7 @@
     "description": "REST API for the blog project",
     "main": "app.js",
     "scripts": {
+        "start": "node --exec babel-node src/api/app.js",
         "devstart": "nodemon --exec babel-node src/api/app.js",
         "test": "echo \"Error: no test specified\" && exit 1",
         "format:check": "prettier --check .",

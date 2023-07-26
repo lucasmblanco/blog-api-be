@@ -3,7 +3,8 @@ import {
     commentFailed,
     commentOnPost,
     commentOnComment,
-    getCommentService
+    getCommentService,
+    deleteComment, 
 } from '../services/comment-services';
 
 const getController = function (req, res) {
@@ -26,4 +27,10 @@ const createOnCommentController = function (req, res) {
     commentOnComment(req, res);
 };
 
-export { createOnPostController, createOnCommentController, getController };
+const deleteController = function (req, res) {
+    deleteComment(req, res); 
+}
+
+
+
+export { createOnPostController, createOnCommentController, getController, deleteController };

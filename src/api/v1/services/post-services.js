@@ -22,38 +22,38 @@ const postApproved = async function (req, res) {
         await newPost.save();
         res.status(201).send(newPost);
     } catch (err) {
-        res.status(400);
+        res.status(400).json({message: err.message});
     }
 };
 
-const postsInStorage = async function (res, next) {
+const postsInStorage = async function (res) {
     try {
         const posts = await Post.find({}).sort({ timestamp: 1 });
         return res.json(posts);
     } catch (err) {
-        next(err);
+        res.status(503).json({message: err.message});
     }
 };
 
-const postDelete = async function (req, res, next) {
+const postDelete = async function (req, res) {
     try {
         const post = await Post.findByIdAndDelete(req.params.id);
         return res.json(post);
     } catch (err) {
-        return next(err);
+        res.status(503).json({message: err.message});
     }
 };
 
-const postRequested = async function (req, res, next) {
+const postRequested = async function (req, res) {
     try {
         const post = await Post.findById(req.params.id);
         return res.json(post);
     } catch (err) {
-        next(err);
+        res.status(503).json({message: err.message});
     }
 };
 
-const postEdit = async function (req, res, next) {
+const postEdit = async function (req, res) {
     try {
         const post = new Post({
             author: req.user[0].id,
@@ -68,7 +68,7 @@ const postEdit = async function (req, res, next) {
         });
         res.status(200).send(postUpdated);
     } catch (err) {
-        next(err);
+        res.status(503).json({message: err.message});
     }
 };
 

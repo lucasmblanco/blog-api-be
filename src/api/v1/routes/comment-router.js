@@ -1,9 +1,10 @@
 import { Router } from 'express';
-import { authenticateUser } from '../services/auth-services';
+import { authenticateUser, authenticateAdmin } from '../services/auth-services';
 import {
     createOnPostController,
     createOnCommentController,
     getController,
+    deleteController,
 } from '../controllers/comment-controller';
 import commentValidation from '../validations/comment-validation';
 
@@ -16,10 +17,14 @@ router.get('/:id/', getController);
 router.post('/', authenticateUser, commentValidation, createOnPostController);
 
 router.post(
-    '/:id/',
+    '/:id',
     authenticateUser,
     commentValidation,
     createOnCommentController
 );
+
+
+
+router.delete('/:id', authenticateUser, deleteController); 
 
 export default router;

@@ -6,7 +6,6 @@ import logger from 'morgan';
 import cors from 'cors';
 import { main } from './config/database-configuration.js';
 import routes from './v1/routes';
-//import { JWTStrategy, authenticateUser } from './v1/services/auth-services.js';
 
 const port = process.env.PORT;
 
@@ -19,8 +18,7 @@ app.use(express.json());
 app.use(passport.initialize());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-//passport.use(JWTStrategy);
-//app.use(authenticateUser);
+app.use('/', routes.main); 
 app.use('/admin', routes.admin);
 app.use('/users', routes.user);
 app.use('/posts', routes.post);

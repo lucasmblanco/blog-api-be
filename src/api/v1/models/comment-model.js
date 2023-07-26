@@ -24,6 +24,14 @@ const CommentSchema = new Schema({
         type: Date,
         required: true,
     },
+    edited: {
+        type: Boolean,
+        required: true,
+    },
+    deleted: {
+        type: Boolean,
+        required: true,
+    }
 });
 
 export default mongoose.model('Comment', CommentSchema);

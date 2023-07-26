@@ -31,8 +31,17 @@ const getUsers = async function (req, res) {
         const users = await UserSchema.find({}, 'username').sort({username: 1}); 
         res.status(200).json(users); 
     } catch (err) {
-        res.status(503).send(err.message); 
+        res.status(503).json({ message: err.message }); 
     }
 }
 
-export { userFailed, userApproved, getUsers };
+const deleteUser = async function (req, res) {
+    try {
+        const user = await UserSchema.findByIdAndDelete(req.params.id); 
+        res.status(200).json(user); 
+    } catch (err) {
+        return res.status(503).json({ message: err.message }); 
+    }
+}
+
+export { userFailed, userApproved, getUsers, deleteUser};

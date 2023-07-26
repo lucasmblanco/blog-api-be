@@ -4,7 +4,6 @@ import User from '../models/user-model';
 import jwt from 'jsonwebtoken';
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
-//import passport from 'passport';
 
 const JWTAuth = async function (req, res, option) {
     const { username, password } = req.body;
@@ -91,40 +90,6 @@ passport.use(
     })
 );
 
-/*
-const opts = {};
-opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-opts.secretOrKey = process.env.SECRET;
-
-const JWTStrategy = new JwtStrategy(opts, (jwt_payload, done) => {
-    const user = Admin.findById(jwt_payload.sub);
-    if (user) {
-        bcrypt.compare(jwt_payload.password, user.password, (err, isMatch) => {
-            if (!err && isMatch) {
-                return done(null, user);
-              }
-              return done(null, false, { message: 'incorrect password' });
-        })
-    }
-    return done(null, false, { message: 'user not found' });
-})
-*/
-
-/*
-const authenticateUser = function (req, res, next) {
-    passport.authenticate('jwt', { session: false }, (err, user) => {
-        if (err) {
-            return res.status(500).json({ error: 'Internal Server Error' });
-        }
-        if (!user) {
-            return res.status(401).json({ error: 'Unauthorized' });
-        }
-        req.user = user;
-        next();
-    })(req, res, next);
-}
-*/
-
 const authenticateUser = passport.authenticate('user-auth', { session: false });
 const authenticateAdmin = passport.authenticate('admin-auth', {
     session: false,
@@ -134,7 +99,6 @@ const tokenVerification = passport.authenticate('jwt-auth', { session: false });
 
 export {
     JWTAuth,
-    //JWTStrategy,
     authenticateUser,
     authenticateAdmin,
     tokenVerification,

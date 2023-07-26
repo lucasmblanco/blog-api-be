@@ -8,8 +8,8 @@ import {
     postEdit,
 } from '../services/post-services';
 
-const getController = (req, res, next) => {
-    return postsInStorage(res, next);
+const getController = (req, res) => {
+    return postsInStorage(res);
 };
 
 const createController = (req, res, next) => {
