@@ -4,13 +4,14 @@
     "description": "REST API for the blog project",
     "main": "app.js",
     "scripts": {
-        "start": "node src/api/app.js",
+        "start": "node build/api/app.js",
         "devstart": "nodemon --exec babel-node src/api/app.js",
         "test": "echo \"Error: no test specified\" && exit 1",
         "format:check": "prettier --check .",
         "format:write": "prettier --write .",
         "lint:check": "eslint .",
-        "lint:fix": "eslint --fix ."
+        "lint:fix": "eslint --fix .",
+        "build": "babel src -d build"
     },
     "author": "",
     "license": "ISC",
@@ -32,6 +33,7 @@
         "passport-jwt": "^4.0.1"
     },
     "devDependencies": {
+        "@babel/cli": "^7.22.9",
         "@babel/core": "^7.22.8",
         "@babel/node": "^7.22.6",
         "@babel/preset-env": "^7.22.7",
