@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(passport.initialize());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use('/v1', v1Routes); 
+app.use('/v1', v1Routes);
 /*
 app.use('/', routes.main); 
 app.use('/admin', routes.admin);
