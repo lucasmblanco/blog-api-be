@@ -15,12 +15,12 @@ const JWTAuth = async function (req, res, option) {
         bcrypt.compare(password, user.password, (err, isMatch) => {
             if (!err && isMatch) {
                 const opts = {};
-                opts.expiresIn = 1200;
+                opts.expiresIn = '1h'; // 1 hour duration
                 const secret = process.env.SECRET;
                 const token = jwt.sign({ username }, secret, opts);
+                res.cookie('access_token', token, { httpOnly: true, maxAge: 3600000 }); 
                 return res.status(200).json({
                     message: 'Auth Passed',
-                    token,
                 });
             } else {
                 return res.status(401).json({ message: 'Auth Failed' });
@@ -31,14 +31,24 @@ const JWTAuth = async function (req, res, option) {
     }
 };
 
+const cookieExtractor = (req) => {
+    let token = null;
+    if (req && req.cookies) {
+      token = req.cookies['access_token'];
+    }
+    return token;
+  };
+
+
 const opts = {};
-opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.jwtFromRequest = ExtractJwt.fromExtractors([cookieExtractor]);
 opts.secretOrKey = process.env.SECRET;
 opts.passReqToCallback = true;
 
 passport.use(
     'user-auth',
     new JwtStrategy(opts, async (req, jwt_payload, done) => {
+   
         try {
             const user = await User.find({ username: jwt_payload.username });
             if (user) {
