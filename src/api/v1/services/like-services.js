@@ -37,4 +37,4 @@ const likeOnComment = async function (req, res) {
     }
 };
 
-export { likeOnPost, likeOnComment, getLikes};
+export { likeOnPost, likeOnComment, getLikes };

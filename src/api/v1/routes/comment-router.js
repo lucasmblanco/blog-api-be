@@ -23,8 +23,6 @@ router.post(
     createOnCommentController
 );
 
-
-
 router.delete('/:id', authenticateUser, deleteController); 
 
 export default router;

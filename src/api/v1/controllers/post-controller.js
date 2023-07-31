@@ -36,4 +36,10 @@ const editController = (req, res, next) => {
     return postEdit(req, res, next);
 };
 
-export { getController, createController, deleteController, getOneController, editController };
+export {
+    getController,
+    createController,
+    deleteController,
+    getOneController,
+    editController,
+};

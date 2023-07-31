@@ -97,9 +97,4 @@ const authenticateAdmin = passport.authenticate('admin-auth', {
 
 const tokenVerification = passport.authenticate('jwt-auth', { session: false });
 
-export {
-    JWTAuth,
-    authenticateUser,
-    authenticateAdmin,
-    tokenVerification,
-};
+export { JWTAuth, authenticateUser, authenticateAdmin, tokenVerification };

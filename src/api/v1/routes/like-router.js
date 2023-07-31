@@ -8,9 +8,9 @@ import {
 
 const router = Router({ mergeParams: true });
 
-router.get('/', getController); 
+router.get('/', getController);
 
-router.get('/:id', getController); 
+router.get('/:id', getController);
 
 router.post('/', authenticateUser, likeOnPostController);
 

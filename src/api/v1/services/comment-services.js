@@ -1,5 +1,5 @@
 import Comment from '../models/comment-model';
-import User from '../models/user-model'; 
+import User from '../models/user-model';
 
 const commentFailed = function (errors, res) {
     return res
@@ -49,21 +49,22 @@ const commentOnComment = async function (req, res) {
 
 const getCommentService = async function (req, res) {
     try {
-        const comments = await Comment.find({ on: req.params.id }).populate({path: 'author',
-        select: 'username'});
-        return res.status(200).json(comments); 
+        const comments = await Comment.find({ on: req.params.id }).populate({
+            path: 'author',
+            select: 'username',
+        });
+        return res.status(200).json(comments);
     } catch (err) {
-        return res.status(503).json({ message: err.message }); 
+        return res.status(503).json({ message: err.message });
     }
-    
-}
+};
 
 const deleteComment = async function (req, res) {
     try {
-        const comment = await Comment.findById(req.params.id); 
-        const user = await User.findById(req.user[0].id); 
+        const comment = await Comment.findById(req.params.id);
+        const user = await User.findById(req.user[0].id);
         if (comment.author.toString() === user._id.toString()) {
-            const deletedMessage = "Removed by author";
+            const deletedMessage = 'Removed by author';
             const newComment = new Comment({
                 on: comment.on,
                 onModel: comment.onModel,
@@ -74,20 +75,22 @@ const deleteComment = async function (req, res) {
                 deleted: true,
                 id: req.params.id,
             });
-            await newComment.save(); 
-            res.status(200).json({ message: "Deleted successfully." });
-           /*  const commentsOncomment = await Comment.find({ on: comment._id }); 
-            if (commentsOncomment) {
-                await commentOnComment.deleteMany(); 
-            }
-            await comment.deleteOne();  */
+            await newComment.save();
+            res.status(200).json({ message: 'Deleted successfully.' });
         } else {
-            res.status(403).json({ message: "Without authorization to perform the action."})
+            res.status(403).json({
+                message: 'Without authorization to perform the action.',
+            });
         }
-        
     } catch (err) {
-        res.status(503).json({ message: err.message }); 
+        res.status(503).json({ message: err.message });
     }
-}
+};
 
-export { commentFailed, commentOnPost, commentOnComment, getCommentService, deleteComment };
+export {
+    commentFailed,
+    commentOnPost,
+    commentOnComment,
+    getCommentService,
+    deleteComment,
+};

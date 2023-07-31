@@ -15,7 +15,7 @@ const postApproved = async function (req, res) {
         const newPost = new Post({
             author: req.user[0].id,
             title: req.body.title,
-            body: [req.body.body],
+            body: req.body.body,
             published: req.body.published,
             timestamp: new Date(),
         });
@@ -58,7 +58,7 @@ const postEdit = async function (req, res) {
         const post = new Post({
             author: req.user[0].id,
             title: req.body.title,
-            body: [req.body.body],
+            body: req.body.body,
             published: req.body.published,
             timestamp: new Date(),
             _id: req.params.id,

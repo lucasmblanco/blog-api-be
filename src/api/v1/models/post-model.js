@@ -10,12 +10,10 @@ const PostScheme = new Schema({
         type: String,
         required: true,
     },
-    body: [
-        {
-            type: String,
-            required: true,
-        },
-    ],
+    body: {
+        type: String,
+        required: true,
+    },
     published: {
         type: Boolean,
         required: true,

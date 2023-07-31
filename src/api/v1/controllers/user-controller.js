@@ -1,5 +1,10 @@
 import { validationResult } from 'express-validator';
-import { userApproved, userFailed, getUsers, deleteUser } from '../services/user-services';
+import {
+    userApproved,
+    userFailed,
+    getUsers,
+    deleteUser,
+} from '../services/user-services';
 //import { adminFailed } from '../services/admin-services';
 import { JWTAuth } from '../services/auth-services';
 
@@ -20,11 +25,11 @@ const logController = (req, res) => {
 };
 
 const getController = (req, res) => {
-    getUsers(req, res); 
-}
+    getUsers(req, res);
+};
 
 const deleteController = (req, res) => {
-    deleteUser(req, res); 
-}
+    deleteUser(req, res);
+};
 
 export { createController, logController, getController, deleteController };

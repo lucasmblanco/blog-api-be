@@ -31,6 +31,4 @@ const deleteController = function (req, res) {
     deleteComment(req, res); 
 }
 
-
-
 export { createOnPostController, createOnCommentController, getController, deleteController };
