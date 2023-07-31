@@ -22,8 +22,8 @@ app.use('/', routes.main);
 app.use('/admin', routes.admin);
 app.use('/users', routes.user);
 app.use('/posts', routes.post);
-app.use('/:id/comments', routes.comment);
-app.use('/:id/likes', routes.like); 
+app.use('/posts/:id/comments', routes.comment);
+app.use('/posts/:id/likes', routes.like); 
 
 app.use((req, res, next) => {
     next(createError(404));

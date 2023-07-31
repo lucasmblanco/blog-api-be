@@ -4,11 +4,12 @@ import bcrypt from 'bcryptjs';
 const userFailed = function (errors, res) {
     return res
         .status(400)
-        .send(
+         /*.send(
             `Failed validation w/ this errors: ${errors
                 .array()
                 .map((e) => e.msg)} `
-        );
+    );*/
+    .json( {code: 400, message: 'Failed validation', errors: errors.array().map(e => ({ error: e.msg }))})
 };
 
 const userApproved = function (req, res) {
@@ -19,9 +20,11 @@ const userApproved = function (req, res) {
                 password: hashedPassword,
             });
             await newUser.save();
-            res.status(200).json(newUser);
+            res.status(201).json({ code: 201, message: 'User created', user: { username: newUser.username } });
         } catch {
-            res.send(503).json({ message: err.message });
+            res.send(500).json({ code: 500, message: 'Failed user creation', 
+            errors: [{ error: err.message }]
+            });
         }
     });
 };
@@ -31,18 +34,18 @@ const getUsers = async function (req, res) {
         const users = await UserSchema.find({}, 'username').sort({
             username: 1,
         });
-        res.status(200).json(users);
+        res.status(200).json({code: 200, message: 'Success retrieving users', users: users});
     } catch (err) {
-        res.status(503).json({ message: err.message });
+        res.status(500).json({ code: 500, message: 'Failed retrieving user', errors: [{ error: err.message }] });
     }
 };
 
 const deleteUser = async function (req, res) {
     try {
-        const user = await UserSchema.findByIdAndDelete(req.params.id);
-        res.status(200).json(user);
+        await UserSchema.findByIdAndDelete(req.params.id);
+        return res.status(200).json({ code: 200, message: 'User succefully deleted'});
     } catch (err) {
-        return res.status(503).json({ message: err.message });
+        return res.status(500).json({ code: 500, message: 'Failed retrieving user', errors: [{ error: err.message }] });
     }
 };
 

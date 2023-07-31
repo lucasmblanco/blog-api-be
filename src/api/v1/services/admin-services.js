@@ -4,11 +4,12 @@ import bcrypt from 'bcryptjs';
 const adminFailed = function (errors, res) {
     return res
         .status(400)
-        .send(
+        /*.send(
             `Failed validation w/ this errors: ${errors
                 .array()
                 .map((e) => e.msg)} `
-        );
+    );*/
+    .json( {code: 400, message: 'Failed validation', errors: errors.array().map(e => ({ error: e.msg }))})
 };
 
 const adminApproved = function (req, res) {
@@ -19,9 +20,9 @@ const adminApproved = function (req, res) {
                 password: hashedPassword,
             });
             await newUser.save();
-            res.status(200).json({ message: 'Admin created' });
+            res.status(201).json({ code: 201, message: 'Admin created', user: {username: newUser.username} });
         } catch {
-            res.send(503).json({ message: err.message });
+            res.send(500).json({ code: 500, message: 'Failed admin creation', errors: [err.message] });
         }
     });
 };

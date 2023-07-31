@@ -21,9 +21,10 @@ const JWTAuth = async function (req, res, option) {
                 res.cookie('access_token', token, { httpOnly: true, maxAge: 3600000 }); 
                 return res.status(200).json({
                     message: 'Auth Passed',
+                    username: user.username,
                 });
             } else {
-                return res.status(401).json({ message: 'Auth Failed' });
+                return res.status(401).json({ message: 'Auth Failed'});
             }
         });
     } else {

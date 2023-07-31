@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { authenticateUser, authenticateAdmin } from '../services/auth-services';
+import { authenticateUser } from '../services/auth-services';
 import {
     createOnPostController,
     createOnCommentController,
