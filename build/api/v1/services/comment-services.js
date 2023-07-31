@@ -12,9 +12,15 @@ function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyri
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 var commentFailed = function commentFailed(errors, res) {
-  return res.status(400).send("Failed validation w/ this errors: ".concat(errors.array().map(function (e) {
-    return e.msg;
-  })));
+  return res.status(400).json({
+    code: 400,
+    message: 'Failed validation',
+    errors: errors.array().map(function (e) {
+      return {
+        error: e.msg
+      };
+    })
+  });
 };
 exports.commentFailed = commentFailed;
 var commentOnPost = /*#__PURE__*/function () {
@@ -36,12 +42,20 @@ var commentOnPost = /*#__PURE__*/function () {
           _context.next = 4;
           return comment.save();
         case 4:
-          return _context.abrupt("return", res.status(200).send(comment));
+          return _context.abrupt("return", res.status(200).json({
+            code: 200,
+            message: 'Success in creating the comment',
+            comment: comment
+          }));
         case 7:
           _context.prev = 7;
           _context.t0 = _context["catch"](0);
           return _context.abrupt("return", res.status(400).json({
-            message: _context.t0.message
+            code: 422,
+            message: 'Failed to create a comment.',
+            errors: [{
+              error: _context.t0.message
+            }]
           }));
         case 10:
         case "end":
@@ -73,12 +87,20 @@ var commentOnComment = /*#__PURE__*/function () {
           _context2.next = 4;
           return comment.save();
         case 4:
-          return _context2.abrupt("return", res.status(200).send(comment));
+          return _context2.abrupt("return", res.status(200).send({
+            code: 200,
+            message: 'Success in creating the comment',
+            comment: comment
+          }));
         case 7:
           _context2.prev = 7;
           _context2.t0 = _context2["catch"](0);
-          return _context2.abrupt("return", res.status(400).json({
-            message: _context2.t0.message
+          return _context2.abrupt("return", res.status(422).json({
+            code: 422,
+            message: 'Failed to create a comment.',
+            errors: [{
+              error: _context2.t0.message
+            }]
           }));
         case 10:
         case "end":
@@ -107,12 +129,20 @@ var getCommentService = /*#__PURE__*/function () {
           });
         case 3:
           comments = _context3.sent;
-          return _context3.abrupt("return", res.status(200).json(comments));
+          return _context3.abrupt("return", res.status(200).json({
+            code: 200,
+            message: 'Success retrieving comments',
+            comments: comments
+          }));
         case 7:
           _context3.prev = 7;
           _context3.t0 = _context3["catch"](0);
-          return _context3.abrupt("return", res.status(503).json({
-            message: _context3.t0.message
+          return _context3.abrupt("return", res.status(500).json({
+            code: 500,
+            message: 'Failed to retrieve comments',
+            errors: [{
+              error: _context3.t0.message
+            }]
           }));
         case 10:
         case "end":
@@ -144,7 +174,7 @@ var deleteComment = /*#__PURE__*/function () {
             _context4.next = 15;
             break;
           }
-          deletedMessage = "Removed by author";
+          deletedMessage = 'Removed by author';
           newComment = new _commentModel["default"]({
             on: comment.on,
             onModel: comment.onModel,
@@ -158,19 +188,17 @@ var deleteComment = /*#__PURE__*/function () {
           _context4.next = 12;
           return newComment.save();
         case 12:
-          res.status(200).json({
-            message: "Deleted successfully."
-          });
-          /*  const commentsOncomment = await Comment.find({ on: comment._id }); 
-           if (commentsOncomment) {
-               await commentOnComment.deleteMany(); 
-           }
-           await comment.deleteOne();  */
-          _context4.next = 16;
-          break;
+          return _context4.abrupt("return", res.json({
+            code: 200,
+            message: 'The content in the comments has been removed successfully.'
+          }));
         case 15:
           res.status(403).json({
-            message: "Without authorization to perform the action."
+            code: 403,
+            message: 'The action cannot be performed without authorization.',
+            errors: [{
+              error: 'No authorization found'
+            }]
           });
         case 16:
           _context4.next = 21;
@@ -178,8 +206,12 @@ var deleteComment = /*#__PURE__*/function () {
         case 18:
           _context4.prev = 18;
           _context4.t0 = _context4["catch"](0);
-          res.status(503).json({
-            message: _context4.t0.message
+          res.status(500).json({
+            code: 500,
+            message: 'Failed to delete comment content.',
+            errors: [{
+              error: _context4.t0.message
+            }]
           });
         case 21:
         case "end":

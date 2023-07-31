@@ -23,13 +23,23 @@ var getLikes = /*#__PURE__*/function () {
           });
         case 3:
           likes = _context.sent;
-          res.status(200).json(likes);
+          res.status(200).json({
+            code: 200,
+            message: 'Success retrieving resource',
+            likes: likes
+          });
           _context.next = 10;
           break;
         case 7:
           _context.prev = 7;
           _context.t0 = _context["catch"](0);
-          res.status(503).send(_context.t0.message);
+          res.status(500).json({
+            code: 500,
+            message: 'Failed retrieving resource',
+            errors: [{
+              error: _context.t0.message
+            }]
+          });
         case 10:
         case "end":
           return _context.stop();
@@ -56,11 +66,21 @@ var likeOnPost = /*#__PURE__*/function () {
           _context2.next = 4;
           return like.save();
         case 4:
-          return _context2.abrupt("return", res.status(200).send(like));
+          return _context2.abrupt("return", res.status(201).json({
+            code: 201,
+            message: 'Success creating resource',
+            like: like
+          }));
         case 7:
           _context2.prev = 7;
           _context2.t0 = _context2["catch"](0);
-          return _context2.abrupt("return", res.status(400).send("Error creating like: ".concat(_context2.t0.message)));
+          return _context2.abrupt("return", res.status(422).json({
+            code: 422,
+            message: 'Resource creation failure.',
+            errors: [{
+              error: _context2.t0.message
+            }]
+          }));
         case 10:
         case "end":
           return _context2.stop();
@@ -87,11 +107,21 @@ var likeOnComment = /*#__PURE__*/function () {
           _context3.next = 4;
           return like.save();
         case 4:
-          return _context3.abrupt("return", res.status(200).send(like));
+          return _context3.abrupt("return", res.status(201).json({
+            code: 201,
+            message: 'Success creating resource',
+            like: like
+          }));
         case 7:
           _context3.prev = 7;
           _context3.t0 = _context3["catch"](0);
-          return _context3.abrupt("return", res.status(400).send("Error creating like: ".concat(_context3.t0.message)));
+          return _context3.abrupt("return", res.status(422).json({
+            code: 422,
+            message: 'Resource creation failure.',
+            errors: [{
+              error: _context3.t0.message
+            }]
+          }));
         case 10:
         case "end":
           return _context3.stop();

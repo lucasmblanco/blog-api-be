@@ -12,9 +12,15 @@ function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyri
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 var adminFailed = function adminFailed(errors, res) {
-  return res.status(400).send("Failed validation w/ this errors: ".concat(errors.array().map(function (e) {
-    return e.msg;
-  }), " "));
+  return res.status(400).json({
+    code: 400,
+    message: 'Failed validation',
+    errors: errors.array().map(function (e) {
+      return {
+        error: e.msg
+      };
+    })
+  });
 };
 exports.adminFailed = adminFailed;
 var adminApproved = function adminApproved(req, res) {
@@ -32,16 +38,22 @@ var adminApproved = function adminApproved(req, res) {
             _context.next = 4;
             return newUser.save();
           case 4:
-            res.status(200).json({
-              message: 'Admin created'
+            res.status(201).json({
+              code: 201,
+              message: 'Success in creating the admin.',
+              user: {
+                username: newUser.username
+              }
             });
             _context.next = 10;
             break;
           case 7:
             _context.prev = 7;
             _context.t0 = _context["catch"](0);
-            res.send(503).json({
-              message: err.message
+            res.send(500).json({
+              code: 500,
+              message: 'Failed to create an admin.',
+              errors: [err.message]
             });
           case 10:
           case "end":

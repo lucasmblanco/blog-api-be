@@ -10,13 +10,24 @@ var _userRouter = _interopRequireDefault(require("./user-router"));
 var _postRouter = _interopRequireDefault(require("./post-router"));
 var _likeRouter = _interopRequireDefault(require("./like-router"));
 var _commentRouter = _interopRequireDefault(require("./comment-router"));
+var _express = require("express");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-var _default = {
-  main: _mainRouter["default"],
-  admin: _adminRouter["default"],
-  user: _userRouter["default"],
-  post: _postRouter["default"],
-  like: _likeRouter["default"],
-  comment: _commentRouter["default"]
+var routes = (0, _express.Router)();
+routes.use('/', _mainRouter["default"]);
+routes.use('/admin', _adminRouter["default"]);
+routes.use('/users', _userRouter["default"]);
+routes.use('/posts', _postRouter["default"]);
+routes.use('/posts/:id/comments', _commentRouter["default"]);
+routes.use('/posts/:id/likes', _likeRouter["default"]);
+var _default = routes;
+/*
+export default {
+    main,
+    admin,
+    user,
+    post,
+    like,
+    comment,
 };
+*/
 exports["default"] = _default;

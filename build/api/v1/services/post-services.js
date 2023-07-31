@@ -11,9 +11,15 @@ function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyri
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 var postFailed = function postFailed(errors, res) {
-  return res.status(400).send("Failed validation w/ this errors: ".concat(errors.array().map(function (e) {
-    return e.msg;
-  })));
+  return res.status(422).json({
+    code: 422,
+    message: 'Failed validation',
+    errors: errors.array().map(function (e) {
+      return {
+        error: e.msg
+      };
+    })
+  });
 };
 exports.postFailed = postFailed;
 var postApproved = /*#__PURE__*/function () {
@@ -26,21 +32,29 @@ var postApproved = /*#__PURE__*/function () {
           newPost = new _postModel["default"]({
             author: req.user[0].id,
             title: req.body.title,
-            body: [req.body.body],
+            body: req.body.body,
             published: req.body.published,
             timestamp: new Date()
           });
           _context.next = 4;
           return newPost.save();
         case 4:
-          res.status(201).send(newPost);
+          res.status(201).send({
+            code: 201,
+            message: 'Success in creating the post.',
+            post: newPost
+          });
           _context.next = 10;
           break;
         case 7:
           _context.prev = 7;
           _context.t0 = _context["catch"](0);
-          res.status(400).json({
-            message: _context.t0.message
+          res.status(422).json({
+            code: 422,
+            message: 'Failed to create a post.',
+            errors: [{
+              error: _context.t0.message
+            }]
           });
         case 10:
         case "end":
@@ -66,12 +80,20 @@ var postsInStorage = /*#__PURE__*/function () {
           });
         case 3:
           posts = _context2.sent;
-          return _context2.abrupt("return", res.json(posts));
+          return _context2.abrupt("return", res.json({
+            code: 200,
+            message: 'Success on retrieving posts',
+            posts: posts
+          }));
         case 7:
           _context2.prev = 7;
           _context2.t0 = _context2["catch"](0);
-          res.status(503).json({
-            message: _context2.t0.message
+          res.status(500).json({
+            code: 500,
+            message: 'Failed to retrieve posts.',
+            errors: [{
+              error: _context2.t0.message
+            }]
           });
         case 10:
         case "end":
@@ -86,7 +108,6 @@ var postsInStorage = /*#__PURE__*/function () {
 exports.postsInStorage = postsInStorage;
 var postDelete = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(req, res) {
-    var post;
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:
@@ -94,19 +115,25 @@ var postDelete = /*#__PURE__*/function () {
           _context3.next = 3;
           return _postModel["default"].findByIdAndDelete(req.params.id);
         case 3:
-          post = _context3.sent;
-          return _context3.abrupt("return", res.json(post));
-        case 7:
-          _context3.prev = 7;
+          return _context3.abrupt("return", res.json({
+            code: 200,
+            message: 'Post successfully deleted'
+          }));
+        case 6:
+          _context3.prev = 6;
           _context3.t0 = _context3["catch"](0);
-          res.status(503).json({
-            message: _context3.t0.message
+          res.status(500).json({
+            code: 500,
+            message: 'Failed to delete the post.',
+            errors: [{
+              error: _context3.t0.message
+            }]
           });
-        case 10:
+        case 9:
         case "end":
           return _context3.stop();
       }
-    }, _callee3, null, [[0, 7]]);
+    }, _callee3, null, [[0, 6]]);
   }));
   return function postDelete(_x4, _x5) {
     return _ref3.apply(this, arguments);
@@ -124,12 +151,20 @@ var postRequested = /*#__PURE__*/function () {
           return _postModel["default"].findById(req.params.id);
         case 3:
           post = _context4.sent;
-          return _context4.abrupt("return", res.json(post));
+          return _context4.abrupt("return", res.json({
+            code: 200,
+            message: 'Success in retrieving the post.',
+            post: post
+          }));
         case 7:
           _context4.prev = 7;
           _context4.t0 = _context4["catch"](0);
-          res.status(503).json({
-            message: _context4.t0.message
+          res.status(500).json({
+            code: 500,
+            message: 'Failed on retrieving post',
+            errors: [{
+              error: _context4.t0.message
+            }]
           });
         case 10:
         case "end":
@@ -152,7 +187,7 @@ var postEdit = /*#__PURE__*/function () {
           post = new _postModel["default"]({
             author: req.user[0].id,
             title: req.body.title,
-            body: [req.body.body],
+            body: req.body.body,
             published: req.body.published,
             timestamp: new Date(),
             _id: req.params.id
@@ -163,14 +198,22 @@ var postEdit = /*#__PURE__*/function () {
           });
         case 4:
           postUpdated = _context5.sent;
-          res.status(200).send(postUpdated);
+          res.status(200).json({
+            code: 200,
+            message: 'Success on updating post',
+            post: postUpdated
+          });
           _context5.next = 11;
           break;
         case 8:
           _context5.prev = 8;
           _context5.t0 = _context5["catch"](0);
-          res.status(503).json({
-            message: _context5.t0.message
+          res.status(500).json({
+            code: 500,
+            message: 'Failed in updating post.',
+            errors: [{
+              error: _context5.t0.message
+            }]
           });
         case 11:
         case "end":

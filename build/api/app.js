@@ -26,12 +26,15 @@ app.use(_express["default"].urlencoded({
   extended: false
 }));
 app.use((0, _cookieParser["default"])());
-app.use('/', _routes["default"].main);
-app.use('/admin', _routes["default"].admin);
-app.use('/users', _routes["default"].user);
-app.use('/posts', _routes["default"].post);
-app.use('/:id/comments', _routes["default"].comment);
-app.use('/:id/likes', _routes["default"].like);
+app.use('/v1', _routes["default"]);
+/*
+app.use('/', routes.main); 
+app.use('/admin', routes.admin);
+app.use('/users', routes.user);
+app.use('/posts', routes.post);
+app.use('/posts/:id/comments', routes.comment);
+app.use('/posts/:id/likes', routes.like); 
+*/
 app.use(function (req, res, next) {
   next((0, _httpErrors["default"])(404));
 });

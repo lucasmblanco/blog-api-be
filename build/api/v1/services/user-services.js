@@ -12,9 +12,15 @@ function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyri
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 var userFailed = function userFailed(errors, res) {
-  return res.status(400).send("Failed validation w/ this errors: ".concat(errors.array().map(function (e) {
-    return e.msg;
-  }), " "));
+  return res.status(400).json({
+    code: 400,
+    message: 'Failed validation',
+    errors: errors.array().map(function (e) {
+      return {
+        error: e.msg
+      };
+    })
+  });
 };
 exports.userFailed = userFailed;
 var userApproved = function userApproved(req, res) {
@@ -32,14 +38,24 @@ var userApproved = function userApproved(req, res) {
             _context.next = 4;
             return newUser.save();
           case 4:
-            res.status(200).json(newUser);
+            res.status(201).json({
+              code: 201,
+              message: 'Success in creating the user.',
+              user: {
+                username: newUser.username
+              }
+            });
             _context.next = 10;
             break;
           case 7:
             _context.prev = 7;
             _context.t0 = _context["catch"](0);
-            res.send(503).json({
-              message: err.message
+            res.send(500).json({
+              code: 500,
+              message: 'Failed to create an user.',
+              errors: [{
+                error: err.message
+              }]
             });
           case 10:
           case "end":
@@ -66,14 +82,22 @@ var getUsers = /*#__PURE__*/function () {
           });
         case 3:
           users = _context2.sent;
-          res.status(200).json(users);
+          res.status(200).json({
+            code: 200,
+            message: 'Success retrieving users',
+            users: users
+          });
           _context2.next = 10;
           break;
         case 7:
           _context2.prev = 7;
           _context2.t0 = _context2["catch"](0);
-          res.status(503).json({
-            message: _context2.t0.message
+          res.status(500).json({
+            code: 500,
+            message: 'Failed to retrieve users',
+            errors: [{
+              error: _context2.t0.message
+            }]
           });
         case 10:
         case "end":
@@ -88,7 +112,6 @@ var getUsers = /*#__PURE__*/function () {
 exports.getUsers = getUsers;
 var deleteUser = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(req, res) {
-    var user;
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:
@@ -96,21 +119,25 @@ var deleteUser = /*#__PURE__*/function () {
           _context3.next = 3;
           return _userModel["default"].findByIdAndDelete(req.params.id);
         case 3:
-          user = _context3.sent;
-          res.status(200).json(user);
-          _context3.next = 10;
-          break;
-        case 7:
-          _context3.prev = 7;
-          _context3.t0 = _context3["catch"](0);
-          return _context3.abrupt("return", res.status(503).json({
-            message: _context3.t0.message
+          return _context3.abrupt("return", res.status(200).json({
+            code: 200,
+            message: 'The user was successfully deleted'
           }));
-        case 10:
+        case 6:
+          _context3.prev = 6;
+          _context3.t0 = _context3["catch"](0);
+          return _context3.abrupt("return", res.status(500).json({
+            code: 500,
+            message: 'Failed retrieving user',
+            errors: [{
+              error: _context3.t0.message
+            }]
+          }));
+        case 9:
         case "end":
           return _context3.stop();
       }
-    }, _callee3, null, [[0, 7]]);
+    }, _callee3, null, [[0, 6]]);
   }));
   return function deleteUser(_x5, _x6) {
     return _ref3.apply(this, arguments);

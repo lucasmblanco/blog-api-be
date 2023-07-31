@@ -4,7 +4,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.tokenVerification = exports.authenticateUser = exports.authenticateAdmin = exports.JWTAuth = void 0;
+exports.authenticateUser = exports.authenticateAdmin = exports.JWTAuth = void 0;
 var _bcryptjs = _interopRequireDefault(require("bcryptjs"));
 var _adminModel = _interopRequireDefault(require("../models/admin-model"));
 var _userModel = _interopRequireDefault(require("../models/user-model"));
@@ -47,24 +47,37 @@ var JWTAuth = /*#__PURE__*/function () {
             _bcryptjs["default"].compare(password, user.password, function (err, isMatch) {
               if (!err && isMatch) {
                 var _opts = {};
-                _opts.expiresIn = 1200;
+                _opts.expiresIn = '1h'; // 1 hour duration
                 var secret = process.env.SECRET;
                 var token = _jsonwebtoken["default"].sign({
                   username: username
                 }, secret, _opts);
+                res.cookie('access_token', token, {
+                  httpOnly: true,
+                  maxAge: 3600000
+                });
                 return res.status(200).json({
-                  message: 'Auth Passed',
-                  token: token
+                  code: 200,
+                  message: 'Auth was successfully passed.',
+                  user: {
+                    username: user.username
+                  }
                 });
               } else {
                 return res.status(401).json({
-                  message: 'Auth Failed'
+                  code: 401,
+                  errors: [{
+                    error: 'The authorization was not granted.'
+                  }]
                 });
               }
             });
           } else {
             res.status(401).json({
-              message: 'Auth Failed'
+              code: 401,
+              errors: [{
+                error: 'The authorization was not granted.'
+              }]
             });
           }
         case 12:
@@ -78,8 +91,15 @@ var JWTAuth = /*#__PURE__*/function () {
   };
 }();
 exports.JWTAuth = JWTAuth;
+var cookieExtractor = function cookieExtractor(req) {
+  var token = null;
+  if (req && req.cookies) {
+    token = req.cookies['access_token'];
+  }
+  return token;
+};
 var opts = {};
-opts.jwtFromRequest = _passportJwt.ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.jwtFromRequest = _passportJwt.ExtractJwt.fromExtractors([cookieExtractor]);
 opts.secretOrKey = process.env.SECRET;
 opts.passReqToCallback = true;
 _passport["default"].use('user-auth', new _passportJwt.Strategy(opts, /*#__PURE__*/function () {
@@ -158,55 +178,31 @@ _passport["default"].use('admin-auth', new _passportJwt.Strategy(opts, /*#__PURE
     return _ref3.apply(this, arguments);
   };
 }()));
-_passport["default"].use('jwt-auth', new _passportJwt.Strategy(opts, /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(req, jwt_payload, done) {
-    var user;
-    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-      while (1) switch (_context4.prev = _context4.next) {
-        case 0:
-          _context4.prev = 0;
-          _context4.next = 3;
-          return _adminModel["default"].find({
-            username: jwt_payload.username
-          });
-        case 3:
-          user = _context4.sent;
-          if (user) {
-            _context4.next = 8;
-            break;
-          }
-          _context4.next = 7;
-          return _userModel["default"].find({
-            username: jwt_payload.username
-          });
-        case 7:
-          user = _context4.sent;
-        case 8:
-          if (!user) {
-            _context4.next = 13;
-            break;
-          }
-          req.user = user;
-          return _context4.abrupt("return", done(null, user));
-        case 13:
-          return _context4.abrupt("return", done(null, false));
-        case 14:
-          _context4.next = 19;
-          break;
-        case 16:
-          _context4.prev = 16;
-          _context4.t0 = _context4["catch"](0);
-          return _context4.abrupt("return", done(_context4.t0, false));
-        case 19:
-        case "end":
-          return _context4.stop();
-      }
-    }, _callee4, null, [[0, 16]]);
-  }));
-  return function (_x10, _x11, _x12) {
-    return _ref4.apply(this, arguments);
-  };
-}()));
+
+/* ---- Estrategia creada para verificar si es usuario o admin, no me convencio la implementacion ----
+passport.use(
+    'jwt-auth',
+    new JwtStrategy(opts, async (req, jwt_payload, done) => {
+        try {
+            let user = await Admin.find({ username: jwt_payload.username });
+            if (!user) {
+                user = await User.find({ username: jwt_payload.username });
+            }
+            if (user) {
+                req.user = user;
+                return done(null, user);
+            } else {
+                return done(null, false);
+            }
+        } catch (err) {
+            return done(err, false);
+        }
+    })
+);
+
+const tokenVerification = passport.authenticate('jwt-auth', { session: false });
+*/
+
 var authenticateUser = _passport["default"].authenticate('user-auth', {
   session: false
 });
@@ -215,7 +211,3 @@ var authenticateAdmin = _passport["default"].authenticate('admin-auth', {
   session: false
 });
 exports.authenticateAdmin = authenticateAdmin;
-var tokenVerification = _passport["default"].authenticate('jwt-auth', {
-  session: false
-});
-exports.tokenVerification = tokenVerification;

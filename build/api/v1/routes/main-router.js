@@ -8,7 +8,8 @@ var _express = require("express");
 var router = (0, _express.Router)();
 router.get('/', function (req, res) {
   res.status(200).json({
-    message: "Successful conection with the blog API"
+    code: 200,
+    message: 'Successful conection with the blog API'
   });
 });
 var _default = router;

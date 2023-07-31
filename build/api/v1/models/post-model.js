@@ -18,10 +18,10 @@ var PostScheme = new _mongoose.Schema({
     type: String,
     required: true
   },
-  body: [{
+  body: {
     type: String,
     required: true
-  }],
+  },
   published: {
     type: Boolean,
     required: true
