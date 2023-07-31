@@ -5,11 +5,6 @@ const userFailed = function (errors, res) {
     return (
         res
             .status(400)
-            /*.send(
-            `Failed validation w/ this errors: ${errors
-                .array()
-                .map((e) => e.msg)} `
-    );*/
             .json({
                 code: 400,
                 message: 'Failed validation',

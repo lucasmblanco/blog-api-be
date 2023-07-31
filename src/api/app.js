@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import cors from 'cors';
 import { main } from './config/database-configuration.js';
-import routes from './v1/routes';
+import v1Routes from './v1/routes';
 
 const port = process.env.PORT;
 
@@ -18,13 +18,15 @@ app.use(express.json());
 app.use(passport.initialize());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use('/v1', v1Routes); 
+/*
 app.use('/', routes.main); 
 app.use('/admin', routes.admin);
 app.use('/users', routes.user);
 app.use('/posts', routes.post);
 app.use('/posts/:id/comments', routes.comment);
 app.use('/posts/:id/likes', routes.like); 
-
+*/
 app.use((req, res, next) => {
     next(createError(404));
 });

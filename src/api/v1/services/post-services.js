@@ -52,7 +52,6 @@ const postsInStorage = async function (res) {
 const postDelete = async function (req, res) {
     try {
         await Post.findByIdAndDelete(req.params.id);
-        //return res.json(post);
         return res.json({ code: 200, message: 'Post successfully deleted' });
     } catch (err) {
         res.status(500).json({
