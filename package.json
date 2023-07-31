@@ -3,6 +3,9 @@
     "version": "1.0.0",
     "description": "REST API for the blog project",
     "main": "app.js",
+    "engines": {
+        "node": ">=14.20.1"
+    },
     "scripts": {
         "start": "node build/api/app.js",
         "devstart": "nodemon --exec babel-node src/api/app.js",
