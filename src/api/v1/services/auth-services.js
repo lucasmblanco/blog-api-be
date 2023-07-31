@@ -18,28 +18,41 @@ const JWTAuth = async function (req, res, option) {
                 opts.expiresIn = '1h'; // 1 hour duration
                 const secret = process.env.SECRET;
                 const token = jwt.sign({ username }, secret, opts);
-                res.cookie('access_token', token, { httpOnly: true, maxAge: 3600000 }); 
+                res.cookie('access_token', token, {
+                    httpOnly: true,
+                    maxAge: 3600000,
+                });
                 return res.status(200).json({
-                    message: 'Auth Passed',
-                    username: user.username,
+                    code: 200,
+                    message: 'Auth was successfully passed.',
+                    user: { username: user.username },
                 });
             } else {
-                return res.status(401).json({ message: 'Auth Failed'});
+                return res
+                    .status(401)
+                    .json({
+                        code: 401,
+                        errors: [
+                            { error: 'The authorization was not granted.' },
+                        ],
+                    });
             }
         });
     } else {
-        res.status(401).json({ message: 'Auth Failed' });
+        res.status(401).json({
+            code: 401,
+            errors: [{ error: 'The authorization was not granted.' }],
+        });
     }
 };
 
 const cookieExtractor = (req) => {
     let token = null;
     if (req && req.cookies) {
-      token = req.cookies['access_token'];
+        token = req.cookies['access_token'];
     }
     return token;
-  };
-
+};
 
 const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromExtractors([cookieExtractor]);
@@ -49,7 +62,6 @@ opts.passReqToCallback = true;
 passport.use(
     'user-auth',
     new JwtStrategy(opts, async (req, jwt_payload, done) => {
-   
         try {
             const user = await User.find({ username: jwt_payload.username });
             if (user) {
@@ -81,6 +93,7 @@ passport.use(
     })
 );
 
+/* ---- Estrategia creada para verificar si es usuario o admin, no me convencio la implementacion ----
 passport.use(
     'jwt-auth',
     new JwtStrategy(opts, async (req, jwt_payload, done) => {
@@ -101,11 +114,13 @@ passport.use(
     })
 );
 
+const tokenVerification = passport.authenticate('jwt-auth', { session: false });
+*/
+
 const authenticateUser = passport.authenticate('user-auth', { session: false });
 const authenticateAdmin = passport.authenticate('admin-auth', {
     session: false,
 });
 
-const tokenVerification = passport.authenticate('jwt-auth', { session: false });
 
-export { JWTAuth, authenticateUser, authenticateAdmin, tokenVerification };
+export { JWTAuth, authenticateUser, authenticateAdmin };
