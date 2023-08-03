@@ -21,13 +21,13 @@ const adminApproved = function (req, res) {
                 password: hashedPassword,
             });
             await newUser.save();
-            res.status(201).json({
+            return res.status(201).json({
                 code: 201,
                 message: 'Success in creating the admin.',
                 user: { username: newUser.username },
             });
         } catch {
-            res.status(500).json({
+            return res.status(500).json({
                 code: 500,
                 message: 'Failed to create an admin.',
                 errors: [err.message],

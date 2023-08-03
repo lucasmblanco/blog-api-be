@@ -10,10 +10,6 @@ const createAdmin = (req, res) => {
     } else {
         adminApproved(req, res);
     }
-       
-    
-    
-    
 };
 
 const logAdmin = (req, res) => {
