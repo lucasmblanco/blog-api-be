@@ -5,9 +5,12 @@ import { JWTAuth } from '../services/auth-services';
 const createAdmin = (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return adminFailed(errors, res);
-    } 
-       return adminApproved(req, res);
+        //console.log(errors); 
+         adminFailed(errors, res);
+    } else {
+        adminApproved(req, res);
+    }
+       
     
     
     
