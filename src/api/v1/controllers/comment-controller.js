@@ -16,7 +16,7 @@ const createOnPostController = function (req, res) {
     if (!errors.isEmpty()) {
         return commentFailed(errors, res);
     }
-    commentOnPost(req, res);
+    return commentOnPost(req, res);
 };
 
 const createOnCommentController = function (req, res) {
@@ -24,7 +24,7 @@ const createOnCommentController = function (req, res) {
     if (!errors.isEmpty()) {
         return commentFailed(errors, res);
     }
-    commentOnComment(req, res);
+    return commentOnComment(req, res);
 };
 
 const deleteController = function (req, res) {

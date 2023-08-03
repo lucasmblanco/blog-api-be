@@ -27,7 +27,7 @@ const adminApproved = function (req, res) {
                 user: { username: newUser.username },
             });
         } catch {
-            res.send(500).json({
+            res.status(500).json({
                 code: 500,
                 message: 'Failed to create an admin.',
                 errors: [err.message],

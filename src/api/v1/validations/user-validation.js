@@ -6,7 +6,7 @@ const userValidation = [
         .withMessage('username is required')
         .trim()
         .escape()
-        .withMessage('username must be specific')
+        //.withMessage('username must be specific')
         .isLength({ min: 5, max: 8 })
         .withMessage('Username must contain at least 5 characters and a maximum of 8'),
     body('password')

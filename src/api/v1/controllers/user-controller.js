@@ -12,7 +12,7 @@ const createController = (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return userFailed(errors, res);
-    }
+    } 
     return userApproved(req, res);
 };
 
