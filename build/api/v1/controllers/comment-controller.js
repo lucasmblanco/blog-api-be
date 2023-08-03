@@ -15,7 +15,7 @@ var createOnPostController = function createOnPostController(req, res) {
   if (!errors.isEmpty()) {
     return (0, _commentServices.commentFailed)(errors, res);
   }
-  (0, _commentServices.commentOnPost)(req, res);
+  return (0, _commentServices.commentOnPost)(req, res);
 };
 exports.createOnPostController = createOnPostController;
 var createOnCommentController = function createOnCommentController(req, res) {
@@ -23,7 +23,7 @@ var createOnCommentController = function createOnCommentController(req, res) {
   if (!errors.isEmpty()) {
     return (0, _commentServices.commentFailed)(errors, res);
   }
-  (0, _commentServices.commentOnComment)(req, res);
+  return (0, _commentServices.commentOnComment)(req, res);
 };
 exports.createOnCommentController = createOnCommentController;
 var deleteController = function deleteController(req, res) {

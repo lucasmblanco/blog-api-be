@@ -38,23 +38,21 @@ var adminApproved = function adminApproved(req, res) {
             _context.next = 4;
             return newUser.save();
           case 4:
-            res.status(201).json({
+            return _context.abrupt("return", res.status(201).json({
               code: 201,
               message: 'Success in creating the admin.',
               user: {
                 username: newUser.username
               }
-            });
-            _context.next = 10;
-            break;
+            }));
           case 7:
             _context.prev = 7;
             _context.t0 = _context["catch"](0);
-            res.send(500).json({
+            return _context.abrupt("return", res.status(500).json({
               code: 500,
               message: 'Failed to create an admin.',
               errors: [err.message]
-            });
+            }));
           case 10:
           case "end":
             return _context.stop();

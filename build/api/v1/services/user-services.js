@@ -50,7 +50,7 @@ var userApproved = function userApproved(req, res) {
           case 7:
             _context.prev = 7;
             _context.t0 = _context["catch"](0);
-            res.send(500).json({
+            res.status(500).json({
               code: 500,
               message: 'Failed to create an user.',
               errors: [{

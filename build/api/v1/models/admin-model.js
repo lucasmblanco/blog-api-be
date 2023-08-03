@@ -11,11 +11,14 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 var AdminSchema = new _mongoose.Schema({
   username: {
     type: String,
-    required: true
+    required: true,
+    minlength: 5,
+    maxlength: 8
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    minlength: 8
   }
 });
 var _default = _mongoose["default"].model('Admin', AdminSchema);
