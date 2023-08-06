@@ -12,8 +12,7 @@ var AdminSchema = new _mongoose.Schema({
   username: {
     type: String,
     required: true,
-    minlength: 5,
-    maxlength: 8
+    minlength: 5
   },
   password: {
     type: String,
