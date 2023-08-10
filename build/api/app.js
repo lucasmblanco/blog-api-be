@@ -14,11 +14,19 @@ var _databaseConfiguration = require("./config/database-configuration.js");
 var _routes = _interopRequireDefault(require("./v1/routes"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var port = process.env.PORT;
+var corsOptions = {
+  origin: true,
+  //included origin as true
+  credentials: true //included credentials as true
+};
+
 var app = (0, _express["default"])();
 (0, _databaseConfiguration.main)()["catch"](function (err) {
   return console.log(err);
 });
-app.use((0, _cors["default"])());
+app.use((0, _cors["default"])({
+  corsOptions: corsOptions
+}));
 app.use((0, _morgan["default"])('dev'));
 app.use(_express["default"].json());
 app.use(_passport["default"].initialize());

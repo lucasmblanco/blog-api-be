@@ -47,14 +47,15 @@ var JWTAuth = /*#__PURE__*/function () {
             _bcryptjs["default"].compare(password, user.password, function (err, isMatch) {
               if (!err && isMatch) {
                 var _opts = {};
-                _opts.expiresIn = '1h'; // 1 hour duration
+                _opts.expiresIn = 60 * 60 * 24 * 30; // 1 hour duration
                 var secret = process.env.SECRET;
                 var token = _jsonwebtoken["default"].sign({
                   username: username
                 }, secret, _opts);
                 res.cookie('access_token', token, {
                   httpOnly: true,
-                  maxAge: 3600000
+                  maxAge: 60 * 60 * 24 * 30,
+                  secure: process.env.NODE_ENV === 'production'
                 });
                 return res.status(200).json({
                   code: 200,
