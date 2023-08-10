@@ -18,7 +18,9 @@ var app = (0, _express["default"])();
 (0, _databaseConfiguration.main)()["catch"](function (err) {
   return console.log(err);
 });
-app.use((0, _cors["default"])());
+app.use((0, _cors["default"])({
+  credentials: true
+}));
 app.use((0, _morgan["default"])('dev'));
 app.use(_express["default"].json());
 app.use(_passport["default"].initialize());
