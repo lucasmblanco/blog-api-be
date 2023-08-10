@@ -12,7 +12,7 @@ const port = process.env.PORT;
 const app = express();
 main().catch((err) => console.log(err));
 
-app.use(cors({credentials:true}));
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(passport.initialize());
