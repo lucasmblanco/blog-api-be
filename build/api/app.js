@@ -15,7 +15,7 @@ var _routes = _interopRequireDefault(require("./v1/routes"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var port = process.env.PORT;
 var corsOptions = {
-  origin: 'http://localhost:3000/',
+  origin: 'http://localhost:3000',
   //included origin as true
   credentials: true //included credentials as true
 };
