@@ -19,6 +19,8 @@ const JWTAuth = async function (req, res, option) {
                 const secret = process.env.SECRET;
                 const token = jwt.sign({ username }, secret, opts);
                 res.cookie('access_token', token, {
+                    secure: process.env.NODE_ENV === 'development' ? false : true,
+                    sameSite: false,
                     httpOnly: true,
                     maxAge: 3600000,
                 });
