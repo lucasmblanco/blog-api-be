@@ -9,14 +9,14 @@ import v1Routes from './v1/routes';
 
 const port = process.env.PORT;
 const corsOptions = {
-    origin: 'http://localhost:3000', //included origin as true
+    origin: true, //included origin as true
     credentials: true, //included credentials as true
 };
 
 const app = express();
 main().catch((err) => console.log(err));
 
-app.use(cors({corsOptions}));
+app.use(cors(corsOptions));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(passport.initialize());
