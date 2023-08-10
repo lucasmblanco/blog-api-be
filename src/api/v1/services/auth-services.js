@@ -15,12 +15,13 @@ const JWTAuth = async function (req, res, option) {
         bcrypt.compare(password, user.password, (err, isMatch) => {
             if (!err && isMatch) {
                 const opts = {};
-                opts.expiresIn = '1h'; // 1 hour duration
+                opts.expiresIn =  60 * 60 * 24 * 30; // 1 hour duration
                 const secret = process.env.SECRET;
                 const token = jwt.sign({ username }, secret, opts);
                 res.cookie('access_token', token, {
                     httpOnly: true,
-                    maxAge: 3600000,
+                    maxAge: 60 * 60 * 24 * 30,
+                    secure: process.env.NODE_ENV === 'production',
                 });
                 return res.status(200).json({
                     code: 200,
