@@ -9,7 +9,7 @@ import v1Routes from './v1/routes';
 
 const port = process.env.PORT;
 const corsOptions = {
-    origin: true, //included origin as true
+    origin: 'http://localhost:3000/', //included origin as true
     credentials: true, //included credentials as true
 };
 

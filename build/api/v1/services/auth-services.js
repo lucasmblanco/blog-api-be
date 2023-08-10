@@ -55,7 +55,8 @@ var JWTAuth = /*#__PURE__*/function () {
                 res.cookie('access_token', token, {
                   httpOnly: true,
                   maxAge: 60 * 60 * 24 * 30,
-                  secure: process.env.NODE_ENV === 'production'
+                  secure: process.env.NODE_ENV === 'production',
+                  sameSite: 'none'
                 });
                 return res.status(200).json({
                   code: 200,
