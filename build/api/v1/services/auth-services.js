@@ -53,10 +53,8 @@ var JWTAuth = /*#__PURE__*/function () {
                   username: username
                 }, secret, _opts);
                 res.cookie('access_token', token, {
-                  secure: process.env.SECURE || 'true',
                   httpOnly: true,
-                  maxAge: 3600000,
-                  sameSite: "none"
+                  maxAge: 3600000
                 });
                 return res.status(200).json({
                   code: 200,
