@@ -15,7 +15,7 @@ const JWTAuth = async function (req, res, option) {
         bcrypt.compare(password, user.password, (err, isMatch) => {
             if (!err && isMatch) {
                 const opts = {};
-                opts.expiresIn =  60 * 60 * 24 * 30; // 1 hour duration
+                opts.expiresIn =  60 * 60 * 24 * 30; 
                 const secret = process.env.SECRET;
                 const token = jwt.sign({ username }, secret, opts);
                 res.cookie('access_token', token, {
@@ -47,6 +47,20 @@ const JWTAuth = async function (req, res, option) {
         });
     }
 };
+
+const logOutService = (res) => {
+    res.cookie('access_token', null, {
+        httpOnly: true,
+        maxAge: -1,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'none'
+    })
+    return res.status(200).json({
+        code: 200,
+        message: 'User successfully log out',
+    });
+}
+
 
 const cookieExtractor = (req) => {
     let token = null;
@@ -125,4 +139,4 @@ const authenticateAdmin = passport.authenticate('admin-auth', {
 });
 
 
-export { JWTAuth, authenticateUser, authenticateAdmin };
+export { JWTAuth, authenticateUser, authenticateAdmin, logOutService };

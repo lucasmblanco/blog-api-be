@@ -9,8 +9,8 @@ import v1Routes from './v1/routes';
 
 const port = process.env.PORT;
 const corsOptions = {
-    origin: true, //included origin as true
-    credentials: true, //included credentials as true
+    origin: true,
+    credentials: true, 
 };
 
 const app = express();
@@ -23,14 +23,6 @@ app.use(passport.initialize());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use('/v1', v1Routes);
-/*
-app.use('/', routes.main); 
-app.use('/admin', routes.admin);
-app.use('/users', routes.user);
-app.use('/posts', routes.post);
-app.use('/posts/:id/comments', routes.comment);
-app.use('/posts/:id/likes', routes.like); 
-*/
 app.use((req, res, next) => {
     next(createError(404));
 });
