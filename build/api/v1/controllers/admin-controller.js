@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.logAdmin = exports.createAdmin = void 0;
+exports.logOutController = exports.logAdmin = exports.createAdmin = void 0;
 var _expressValidator = require("express-validator");
 var _adminServices = require("../services/admin-services");
 var _authServices = require("../services/auth-services");
@@ -22,6 +22,10 @@ var logAdmin = function logAdmin(req, res) {
   if (!errors.isEmpty()) {
     return (0, _adminServices.adminFailed)(errors, res);
   }
-  return void (0, _authServices.JWTAuth)(req, res, 'Admin');
+  return void (0, _authServices.logInService)(req, res, 'Admin');
 };
 exports.logAdmin = logAdmin;
+var logOutController = function logOutController(req, res) {
+  (0, _authServices.logOutService)(res);
+};
+exports.logOutController = logOutController;

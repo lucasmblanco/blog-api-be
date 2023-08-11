@@ -16,10 +16,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var port = process.env.PORT;
 var corsOptions = {
   origin: true,
-  //included origin as true
-  credentials: true //included credentials as true
+  credentials: true
 };
-
 var app = (0, _express["default"])();
 (0, _databaseConfiguration.main)()["catch"](function (err) {
   return console.log(err);
@@ -33,14 +31,6 @@ app.use(_express["default"].urlencoded({
 }));
 app.use((0, _cookieParser["default"])());
 app.use('/v1', _routes["default"]);
-/*
-app.use('/', routes.main); 
-app.use('/admin', routes.admin);
-app.use('/users', routes.user);
-app.use('/posts', routes.post);
-app.use('/posts/:id/comments', routes.comment);
-app.use('/posts/:id/likes', routes.like); 
-*/
 app.use(function (req, res, next) {
   next((0, _httpErrors["default"])(404));
 });

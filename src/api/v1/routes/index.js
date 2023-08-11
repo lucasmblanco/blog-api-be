@@ -16,14 +16,3 @@ routes.use('/posts/:id/comments', comment);
 routes.use('/posts/:id/likes', like);
 
 export default routes;
-
-/*
-export default {
-    main,
-    admin,
-    user,
-    post,
-    like,
-    comment,
-};
-*/

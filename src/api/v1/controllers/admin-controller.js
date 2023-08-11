@@ -1,7 +1,6 @@
 import { validationResult } from 'express-validator';
 import { adminApproved, adminFailed } from '../services/admin-services';
-import { JWTAuth } from '../services/auth-services';
-import { logOutService } from '../services/auth-services';
+import { logInService, logOutService } from '../services/auth-services';
 
 const createAdmin = (req, res) => {
     const errors = validationResult(req);
@@ -18,7 +17,7 @@ const logAdmin = (req, res) => {
     if (!errors.isEmpty()) {
         return adminFailed(errors, res);
     } 
-        return void JWTAuth(req, res, 'Admin');
+        return void logInService(req, res, 'Admin');
 };
 
 const logOutController = (req, res) => {

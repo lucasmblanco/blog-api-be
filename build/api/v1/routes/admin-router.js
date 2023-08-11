@@ -7,6 +7,7 @@ exports["default"] = void 0;
 var _express = require("express");
 var _userValidation = _interopRequireDefault(require("../validations/user-validation"));
 var _adminController = require("../controllers/admin-controller");
+var _authServices = require("../services/auth-services");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var router = (0, _express.Router)();
 router.get('/', function (req, res) {
@@ -14,5 +15,6 @@ router.get('/', function (req, res) {
 });
 router.post('/signup', _userValidation["default"], _adminController.createAdmin);
 router.post('/login', _userValidation["default"], _adminController.logAdmin);
+router.post('/logout', _authServices.authenticateAdmin, _adminController.logOutController);
 var _default = router;
 exports["default"] = _default;

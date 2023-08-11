@@ -6,7 +6,7 @@ import {
     deleteUser,
 } from '../services/user-services';
 //import { adminFailed } from '../services/admin-services';
-import { JWTAuth } from '../services/auth-services';
+import { logInService, logOutService } from '../services/auth-services';
 
 const createController = (req, res) => {
     const errors = validationResult(req);
@@ -21,7 +21,7 @@ const logController = (req, res) => {
     if (!errors.isEmpty()) {
         return userFailed(errors, res);
     }
-    return JWTAuth(req, res, 'User');
+    return logInService(req, res, 'User');
 };
 
 const getController = (req, res) => {
@@ -32,4 +32,8 @@ const deleteController = (req, res) => {
     deleteUser(req, res);
 };
 
-export { createController, logController, getController, deleteController };
+const logOutController = (req, res) => {
+    logOutService(res);
+}
+
+export { createController, logController, getController, deleteController, logOutController };

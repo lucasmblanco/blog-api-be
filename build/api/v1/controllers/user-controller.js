@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.logController = exports.getController = exports.deleteController = exports.createController = void 0;
+exports.logOutController = exports.logController = exports.getController = exports.deleteController = exports.createController = void 0;
 var _expressValidator = require("express-validator");
 var _userServices = require("../services/user-services");
 var _authServices = require("../services/auth-services");
@@ -22,7 +22,7 @@ var logController = function logController(req, res) {
   if (!errors.isEmpty()) {
     return (0, _userServices.userFailed)(errors, res);
   }
-  return (0, _authServices.JWTAuth)(req, res, 'User');
+  return (0, _authServices.logInService)(req, res, 'User');
 };
 exports.logController = logController;
 var getController = function getController(req, res) {
@@ -33,3 +33,7 @@ var deleteController = function deleteController(req, res) {
   (0, _userServices.deleteUser)(req, res);
 };
 exports.deleteController = deleteController;
+var logOutController = function logOutController(req, res) {
+  (0, _authServices.logOutService)(res);
+};
+exports.logOutController = logOutController;

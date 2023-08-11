@@ -20,14 +20,4 @@ routes.use('/posts', _postRouter["default"]);
 routes.use('/posts/:id/comments', _commentRouter["default"]);
 routes.use('/posts/:id/likes', _likeRouter["default"]);
 var _default = routes;
-/*
-export default {
-    main,
-    admin,
-    user,
-    post,
-    like,
-    comment,
-};
-*/
 exports["default"] = _default;
