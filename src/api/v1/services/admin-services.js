@@ -2,15 +2,11 @@ import AdminSchema from '../models/admin-model';
 import bcrypt from 'bcryptjs';
 
 const adminFailed = function (errors, res) {
-    return (
-        res
-            .status(400)
-            .json({
-                code: 400,
-                message: 'Failed validation',
-                errors: errors.array().map((e) => ({ error: e.msg })),
-            })
-    );
+    return res.status(400).json({
+        code: 400,
+        message: 'Failed validation',
+        errors: errors.array().map((e) => ({ error: e.msg })),
+    });
 };
 
 const adminApproved = function (req, res) {

@@ -7,8 +7,6 @@ exports.logOutController = exports.logController = exports.getController = expor
 var _expressValidator = require("express-validator");
 var _userServices = require("../services/user-services");
 var _authServices = require("../services/auth-services");
-//import { adminFailed } from '../services/admin-services';
-
 var createController = function createController(req, res) {
   var errors = (0, _expressValidator.validationResult)(req);
   if (!errors.isEmpty()) {

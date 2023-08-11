@@ -10,7 +10,6 @@ var _authServices = require("../services/auth-services");
 var createAdmin = function createAdmin(req, res) {
   var errors = (0, _expressValidator.validationResult)(req);
   if (!errors.isEmpty()) {
-    //console.log(errors); 
     (0, _adminServices.adminFailed)(errors, res);
   } else {
     (0, _adminServices.adminApproved)(req, res);

@@ -5,14 +5,13 @@ import {
     getUsers,
     deleteUser,
 } from '../services/user-services';
-//import { adminFailed } from '../services/admin-services';
 import { logInService, logOutService } from '../services/auth-services';
 
 const createController = (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return userFailed(errors, res);
-    } 
+    }
     return userApproved(req, res);
 };
 
@@ -34,6 +33,12 @@ const deleteController = (req, res) => {
 
 const logOutController = (req, res) => {
     logOutService(res);
-}
+};
 
-export { createController, logController, getController, deleteController, logOutController };
+export {
+    createController,
+    logController,
+    getController,
+    deleteController,
+    logOutController,
+};

@@ -2,15 +2,11 @@ import UserSchema from '../models/user-model';
 import bcrypt from 'bcryptjs';
 
 const userFailed = function (errors, res) {
-    return (
-        res
-            .status(400)
-            .json({
-                code: 400,
-                message: 'Failed validation',
-                errors: errors.array().map((e) => ({ error: e.msg })),
-            })
-    );
+    return res.status(400).json({
+        code: 400,
+        message: 'Failed validation',
+        errors: errors.array().map((e) => ({ error: e.msg })),
+    });
 };
 
 const userApproved = function (req, res) {

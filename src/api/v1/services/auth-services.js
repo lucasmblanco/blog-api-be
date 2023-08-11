@@ -4,6 +4,7 @@ import User from '../models/user-model';
 import jwt from 'jsonwebtoken';
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
+import { EXPIRATION_TIME } from '../../config/constants';
 
 const cookieExtractor = (req) => {
     let token = null;
@@ -13,14 +14,19 @@ const cookieExtractor = (req) => {
     return token;
 };
 
-const opts = {};
-opts.jwtFromRequest = ExtractJwt.fromExtractors([cookieExtractor]);
-opts.secretOrKey = process.env.SECRET;
-opts.passReqToCallback = true;
+const PASSPORT_OPTIONS = {
+    jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
+    secretOrKey: process.env.SECRET,
+    passReqToCallback: true,
+};
+
+const JWT_SIGN_OPTIONS = {
+    expiresIn: EXPIRATION_TIME,
+};
 
 passport.use(
     'user-auth',
-    new JwtStrategy(opts, async (req, jwt_payload, done) => {
+    new JwtStrategy(PASSPORT_OPTIONS, async (req, jwt_payload, done) => {
         try {
             const user = await User.find({ username: jwt_payload.username });
             if (user) {
@@ -37,7 +43,7 @@ passport.use(
 
 passport.use(
     'admin-auth',
-    new JwtStrategy(opts, async (req, jwt_payload, done) => {
+    new JwtStrategy(PASSPORT_OPTIONS, async (req, jwt_payload, done) => {
         try {
             const user = await Admin.find({ username: jwt_payload.username });
             if (user) {
@@ -60,15 +66,13 @@ const logInService = async function (req, res, option) {
     if (user) {
         bcrypt.compare(password, user.password, (err, isMatch) => {
             if (!err && isMatch) {
-                const opts = {};
-                opts.expiresIn =  60 * 60 * 24 * 30; 
                 const secret = process.env.SECRET;
-                const token = jwt.sign({ username }, secret, opts);
+                const token = jwt.sign({ username }, secret, JWT_SIGN_OPTIONS);
                 res.cookie('access_token', token, {
                     httpOnly: true,
-                    maxAge: 60 * 60 * 24 * 30,
+                    maxAge: EXPIRATION_TIME,
                     secure: process.env.NODE_ENV === 'production',
-                    sameSite: 'none'
+                    sameSite: 'none',
                 });
                 return res.status(200).json({
                     code: 200,
@@ -76,14 +80,10 @@ const logInService = async function (req, res, option) {
                     user: { username: user.username },
                 });
             } else {
-                return res
-                    .status(401)
-                    .json({
-                        code: 401,
-                        errors: [
-                            { error: 'The authorization was not granted.' },
-                        ],
-                    });
+                return res.status(401).json({
+                    code: 401,
+                    errors: [{ error: 'The authorization was not granted.' }],
+                });
             }
         });
     } else {
@@ -99,19 +99,17 @@ const logOutService = (res) => {
         httpOnly: true,
         maxAge: -1,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'none'
-    })
+        sameSite: 'none',
+    });
     return res.status(200).json({
         code: 200,
         message: 'User successfully log out',
     });
-}
+};
 
 const authenticateUser = passport.authenticate('user-auth', { session: false });
 const authenticateAdmin = passport.authenticate('admin-auth', {
     session: false,
 });
 
-
-
-export { logInService, authenticateUser, authenticateAdmin, logOutService };
+export { logInService, logOutService, authenticateUser, authenticateAdmin };

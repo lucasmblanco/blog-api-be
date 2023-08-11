@@ -5,7 +5,7 @@ import {
     logController,
     getController,
     deleteController,
-    logOutController
+    logOutController,
 } from '../controllers/user-controller';
 import { authenticateAdmin, authenticateUser } from '../services/auth-services';
 
@@ -17,7 +17,7 @@ router.post('/signup', userValidation, createController);
 
 router.post('/login', userValidation, logController);
 
-router.post('/logout', authenticateUser, logOutController); 
+router.post('/logout', authenticateUser, logOutController);
 
 router.delete('/:id', authenticateAdmin, deleteController);
 
