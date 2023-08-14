@@ -189,7 +189,7 @@ var postEdit = /*#__PURE__*/function () {
             title: req.body.title,
             body: req.body.body,
             published: req.body.published,
-            timestamp: new Date(),
+            timestamp: req.body.timestamp ? req.body.timestamp : new Date(),
             _id: req.params.id
           });
           _context5.next = 4;
