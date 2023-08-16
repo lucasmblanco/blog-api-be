@@ -9,10 +9,10 @@ const postValidation = [
         .withMessage('title must be specific'),
     body('body')
         .notEmpty()
-        .withMessage('body is required')
-        .trim()
-        .escape()
-        .withMessage('body must be specific'),
+        .withMessage('body is required'),
+        //.trim()
+        //.escape()
+        //.withMessage('body must be specific'),
     body('published').customSanitizer((input) => {
         return Boolean(input);
     }),
