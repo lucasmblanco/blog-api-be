@@ -72,7 +72,7 @@ const logInService = async function (req, res, option) {
                     httpOnly: true,
                     maxAge: EXPIRATION_TIME,
                     secure: process.env.NODE_ENV === 'production',
-                    sameSite: 'lax',
+                    sameSite: 'none',
                 });
                 return res.status(200).json({
                     code: 200,

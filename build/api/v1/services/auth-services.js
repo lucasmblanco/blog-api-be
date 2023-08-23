@@ -146,7 +146,7 @@ var logInService = /*#__PURE__*/function () {
                   httpOnly: true,
                   maxAge: _constants.EXPIRATION_TIME,
                   secure: process.env.NODE_ENV === 'production',
-                  sameSite: 'lax'
+                  sameSite: 'none'
                 });
                 return res.status(200).json({
                   code: 200,
