@@ -75,7 +75,10 @@ var postsInStorage = /*#__PURE__*/function () {
         case 0:
           _context2.prev = 0;
           _context2.next = 3;
-          return _postModel["default"].find({}).sort({
+          return _postModel["default"].find({}).populate({
+            path: 'author',
+            select: 'username'
+          }).sort({
             timestamp: 1
           });
         case 3:

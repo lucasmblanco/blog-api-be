@@ -34,7 +34,7 @@ const postApproved = async function (req, res) {
 
 const postsInStorage = async function (res) {
     try {
-        const posts = await Post.find({}).sort({ timestamp: 1 });
+        const posts = await Post.find({}).populate({path: 'author', select: 'username'}).sort({ timestamp: 1 });
         return res.json({
             code: 200,
             message: 'Success on retrieving posts',
