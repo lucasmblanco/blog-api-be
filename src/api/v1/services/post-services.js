@@ -1,4 +1,6 @@
 import Post from '../models/post-model';
+import Comment from '../models/comment-model';
+import Like from '../models/likes-model';
 
 const postFailed = function (errors, res) {
     return res.status(422).json({
@@ -51,7 +53,12 @@ const postsInStorage = async function (res) {
 
 const postDelete = async function (req, res) {
     try {
-        await Post.findByIdAndDelete(req.params.id);
+        //Experimental approach, before i just deleted the post 
+        await Promise.all([
+            Post.findByIdAndDelete(req.params.id),
+            Comment.findByIdAndDelete({ on: req.params.id }), 
+            Like.findByIdAndDelete({ on: req.params.id })
+        ])
         return res.json({ code: 200, message: 'Post successfully deleted' });
     } catch (err) {
         res.status(500).json({

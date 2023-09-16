@@ -1,14 +1,15 @@
-import { getLikes, likeOnPost, likeOnComment } from '../services/like-services';
+import { getLikes, likeResource, dislikeResource } from '../services/like-services';
 
-const likeOnPostController = function (req, res) {
-    likeOnPost(req, res);
-};
-
-const likeOnCommentController = function (req, res) {
-    likeOnComment(req, res);
+const likeResourceController = function (req, res) {
+    likeResource(req, res);
 };
 
 const getController = function (req, res) {
     getLikes(req, res);
 };
-export { likeOnPostController, likeOnCommentController, getController };
+
+const dislikeResourceController = function (req, res) {
+    dislikeResource(req, res); 
+}
+
+export { likeResourceController, getController, dislikeResourceController, };

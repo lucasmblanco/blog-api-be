@@ -14,5 +14,6 @@ routes.use('/users', user);
 routes.use('/posts', post);
 routes.use('/posts/:id/comments', comment);
 routes.use('/posts/:id/like', like);
+routes.use('/posts/:postId/comments/:commentId/like', like);
 
 export default routes;

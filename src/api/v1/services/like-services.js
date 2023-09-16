@@ -17,11 +17,11 @@ const getLikes = async function (req, res) {
     }
 };
 
-const likeOnPost = async function (req, res) {
+const likeResource = async function (req, res) {
     try {
         const like = new Like({
-            on: req.params.id,
-            onModel: 'Post',
+            on: req.params.commentId !== undefined ? req.params.commentId : req.params.id,
+            onModel: req.params.commentId !== undefined ? 'Comment' : 'Post',
             author: req.user[0].id,
         });
         await like.save();
@@ -39,26 +39,21 @@ const likeOnPost = async function (req, res) {
     }
 };
 
-const likeOnComment = async function (req, res) {
+
+const dislikeResource = async function (req, res) {
+    const likeId = req.params.commentId !== undefined ? req.params.commentId : req.params.id;
     try {
-        const like = new Like({
-            on: req.params.id,
-            onModel: 'Comment',
-            author: req.user[0].id,
-        });
-        await like.save();
-        return res.status(201).json({
-            code: 201,
-            message: 'Success creating resource',
-            like: like,
-        });
+        await Like.findOneAndDelete({on: likeId});
+        return res.json({ code: 200, message: 'Like successfully deleted' });
     } catch (err) {
-        return res.status(422).json({
-            code: 422,
-            message: 'Resource creation failure.',
+        res.status(500).json({
+            code: 500,
+            message: 'Failed to delete the like.',
             errors: [{ error: err.message }],
         });
     }
-};
+}
 
-export { likeOnPost, likeOnComment, getLikes };
+
+
+export { likeResource, getLikes, dislikeResource };
