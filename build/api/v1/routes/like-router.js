@@ -11,8 +11,7 @@ var router = (0, _express.Router)({
   mergeParams: true
 });
 router.get('/', _likeController.getController);
-router.get('/:id', _likeController.getController);
-router.post('/', _authServices.authenticateUser, _likeController.likeOnPostController);
-router.post('/:id', _authServices.authenticateUser, _likeController.likeOnCommentController);
+router.post('/', _authServices.authenticateUser, _likeController.likeResourceController);
+router["delete"]('/', _authServices.authenticateUser, _likeController.dislikeResourceController);
 var _default = router;
 exports["default"] = _default;
