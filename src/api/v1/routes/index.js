@@ -13,7 +13,7 @@ routes.use('/admin', admin);
 routes.use('/users', user);
 routes.use('/posts', post);
 routes.use('/posts/:id/comments', comment);
-routes.use('/posts/:id/like', like);
-routes.use('/posts/:postId/comments/:commentId/like', like);
+routes.use('/posts/:id/likes', like);
+routes.use('/posts/:postId/comments/:commentId/likes', like);
 
 export default routes;
