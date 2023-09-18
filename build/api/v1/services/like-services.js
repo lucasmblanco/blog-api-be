@@ -53,27 +53,28 @@ var getLikes = /*#__PURE__*/function () {
 exports.getLikes = getLikes;
 var likeResource = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(req, res) {
-    var like;
+    var url, like;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
-          _context2.prev = 0;
+          url = req.baseUrl.split('/');
+          _context2.prev = 1;
           like = new _likesModel["default"]({
-            on: req.params.commentId !== undefined ? req.params.commentId : req.params.id,
-            onModel: req.params.commentId !== undefined ? 'Comment' : 'Post',
+            on: req.params.id,
+            onModel: url[2] === 'comments' ? 'Comment' : 'Post',
             author: req.user[0].id
           });
-          _context2.next = 4;
+          _context2.next = 5;
           return like.save();
-        case 4:
+        case 5:
           return _context2.abrupt("return", res.status(201).json({
             code: 201,
             message: 'Success creating resource',
             like: like
           }));
-        case 7:
-          _context2.prev = 7;
-          _context2.t0 = _context2["catch"](0);
+        case 8:
+          _context2.prev = 8;
+          _context2.t0 = _context2["catch"](1);
           return _context2.abrupt("return", res.status(422).json({
             code: 422,
             message: 'Resource creation failure.',
@@ -81,11 +82,11 @@ var likeResource = /*#__PURE__*/function () {
               error: _context2.t0.message
             }]
           }));
-        case 10:
+        case 11:
         case "end":
           return _context2.stop();
       }
-    }, _callee2, null, [[0, 7]]);
+    }, _callee2, null, [[1, 8]]);
   }));
   return function likeResource(_x3, _x4) {
     return _ref2.apply(this, arguments);

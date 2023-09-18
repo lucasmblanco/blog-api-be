@@ -18,10 +18,11 @@ const getLikes = async function (req, res) {
 };
 
 const likeResource = async function (req, res) {
+    const url = req.baseUrl.split('/'); 
     try {
         const like = new Like({
-            on: req.params.commentId !== undefined ? req.params.commentId : req.params.id,
-            onModel: req.params.commentId !== undefined ? 'Comment' : 'Post',
+            on: req.params.id,
+            onModel: url[2] === 'comments' ? 'Comment' : 'Post',
             author: req.user[0].id,
         });
         await like.save();
