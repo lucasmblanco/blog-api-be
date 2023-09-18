@@ -77,7 +77,7 @@ const logInService = async function (req, res, option) {
                 return res.status(200).json({
                     code: 200,
                     message: 'Auth was successfully passed.',
-                    user: { username: user.username },
+                    user: { username: user.username, id: user.id },
                 });
             } else {
                 return res.status(401).json({

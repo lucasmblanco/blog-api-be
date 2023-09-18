@@ -152,7 +152,8 @@ var logInService = /*#__PURE__*/function () {
                   code: 200,
                   message: 'Auth was successfully passed.',
                   user: {
-                    username: user.username
+                    username: user.username,
+                    id: user.id
                   }
                 });
               } else {
