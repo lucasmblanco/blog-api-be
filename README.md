@@ -23,7 +23,7 @@ La idea también era crear esta API para poder crear dentro de mi página portfo
 ***
 <br/>
 
-# Project: API Blog
+# Project: Blog API
 
 **This project consists of 3 different parts, you can find them here:**
 
